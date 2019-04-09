@@ -7,6 +7,8 @@ const session = require('express-session')
 const pg = require('pg')
 const pgSession = require('connect-pg-simple')(session)
 
+const ctrlUser = require('./controllers/authController')
+
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env
 
 const app = express();
@@ -34,4 +36,10 @@ massive(CONNECTION_STRING).then(db => {
     console.log('Database connected')
 })
 
-app.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`))
+app.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`));
+
+//User endpoints
+app.post('/auth/register', ctrlUser.register);
+app.post('/auth/login', ctrlUser.login);
+app.get('/auth/checkuser', ctrlUser.getUser);
+app.post('/auth/logout', ctrlUser.Logout);
