@@ -7,6 +7,7 @@ const session = require('express-session')
 const pg = require('pg')
 const pgSession = require('connect-pg-simple')(session)
 
+
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env
 
 const app = express();
@@ -35,14 +36,16 @@ massive(CONNECTION_STRING).then(db => {
     app.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`))
 })
 
-
 //Controllers
 const eCt = require('./controllers/eventController')
-
+const ctrlUser = require('./controllers/authController')
 
 //ENDPOINTS
 //Auth
-
+    app.post('/auth/register', ctrlUser.register);
+    app.post('/auth/login', ctrlUser.login);
+    app.get('/auth/checkuser', ctrlUser.getUser);
+    app.post('/auth/logout', ctrlUser.Logout);
 
 //Events
     app.get('/events',eCt.getEvents)
