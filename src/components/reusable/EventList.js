@@ -1,8 +1,13 @@
 import React from 'react';
 
-function EventList(){
+function EventList(props){
+    console.log(props.data)
     return(
-            <div>EventList</div>
+            <div>
+                <h4>Event Title: {props.data.title}</h4>
+                <p>{props.data.description}</p>
+            </div>
+
         )
 }
 
