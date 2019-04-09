@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const massive = require('massive')
 const session = require('express-session')
+const ctrl = require('eventController')
 
 const pg = require('pg')
 const pgSession = require('connect-pg-simple')(session)
@@ -34,4 +35,10 @@ massive(CONNECTION_STRING).then(db => {
     console.log('Database connected')
 })
 
+
+
+
 app.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`))
+
+// ! Form Submit
+app.post('/api/submitForm',ctrl.submitForm)
