@@ -2,20 +2,28 @@ const bcrypt = require('bcryptjs')
 
 module.exports = {
     register: async (req, res) => {
-        const { email, password } = req.body;
+        const { email, password, username, image } = req.body;
         const { session } = req;
         const db = req.app.get('db');
         let takenEmail = await db.check_email({email})
         
-
         takenEmail = takenEmail[0]
 
+        let takenUserName = await db.check_username({username})
+
+        takenUserName = takenUserName[0]
+
         if(takenEmail) {
-            return res.sendStatus(409)
+            return res.status(409).send("Email is already in use")
         }
+
+        if(takenUserName){
+            return res.status(409).send("Username has already been taken")
+        }
+
         let salt = bcrypt.genSaltSync(10);
         let hash = bcrypt.hashSync(password ,salt);
-        let user = await db.register({ email, password: hash})
+        let user = await db.register({ email, password: hash, username, image })
         user = user[0]
         session.user = user
         res.status(200).send(session.user)
@@ -30,7 +38,7 @@ module.exports = {
         user = user[0]
         
         if(!user) {
-            res.sendStatus(404)
+            res.status(401).send('There is no user found with the email submitted.')
         }
         
         let authenticated = bcrypt.compareSync( password, user.password )
@@ -39,7 +47,7 @@ module.exports = {
             session.user = user
             res.status(200).send(session.user)
         } else {
-            res.sendStatus(401)
+            res.status(401).send('Incorrect password')
         }
     },
     getUser: async ( req, res ) => {
