@@ -32,6 +32,21 @@ app.use(session({
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db)
     console.log('Database connected')
+    app.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`))
 })
 
-app.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`))
+
+//Controllers
+const eCt = require('./controllers/eventController')
+//ENDPOINTS
+
+
+
+//Auth
+
+
+//Events
+    app.get('/events',eCt.getEvents)
+
+
+//Messages
