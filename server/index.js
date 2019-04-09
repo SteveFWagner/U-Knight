@@ -38,15 +38,17 @@ massive(CONNECTION_STRING).then(db => {
 
 //Controllers
 const eCt = require('./controllers/eventController')
+
+
 //ENDPOINTS
-
-
-
 //Auth
 
 
 //Events
     app.get('/events',eCt.getEvents)
+    app.post('/api/submitForm',eCt.submitForm)
 
 
 //Messages
+
+
