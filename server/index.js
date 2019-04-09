@@ -7,7 +7,6 @@ const session = require('express-session')
 const pg = require('pg')
 const pgSession = require('connect-pg-simple')(session)
 
-const ctrlUser = require('./controllers/authController')
 
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env
 
@@ -34,12 +33,25 @@ app.use(session({
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db)
     console.log('Database connected')
+    app.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`))
 })
 
-app.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`));
+//Controllers
+const eCt = require('./controllers/eventController')
+const ctrlUser = require('./controllers/authController')
 
-//User endpoints
-app.post('/auth/register', ctrlUser.register);
-app.post('/auth/login', ctrlUser.login);
-app.get('/auth/checkuser', ctrlUser.getUser);
-app.post('/auth/logout', ctrlUser.Logout);
+//ENDPOINTS
+//Auth
+    app.post('/auth/register', ctrlUser.register);
+    app.post('/auth/login', ctrlUser.login);
+    app.get('/auth/checkuser', ctrlUser.getUser);
+    app.post('/auth/logout', ctrlUser.Logout);
+
+//Events
+    app.get('/events',eCt.getEvents)
+    app.post('/api/submitForm',eCt.submitForm)
+
+
+//Messages
+
+
