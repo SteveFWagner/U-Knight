@@ -8,9 +8,9 @@ module.exports ={
     },
     submitForm: (req, res) => {
         console.log(req.body)
-      const {title, category, description, start_time, end_time, address, date, zipcode} = req.body
+      const {title, category, description, start_date, end_date, address, zipcode} = req.body
         const db = req.app.get('db')
-        db.Events.submit_form(title, category, description, start_time, end_time, address, date, zipcode).then(resp => {
+        db.Events.submit_form(title, category, description, start_date, end_date, address, zipcode).then(resp => {
           res.status(200).send(resp)
         }).catch(err => {
             console.log(err)

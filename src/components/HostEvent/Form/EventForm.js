@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 
-// Text Field 
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-
-// Radio Button
+// ! Radio Button
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import InputLabel from '@material-ui/core/InputLabel'
+import Select from '@material-ui/core/Select'
 
+// ! Text Field 
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+
+// ! Date Picker
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 class EventForm extends Component {
     constructor(props) {
@@ -20,15 +25,17 @@ class EventForm extends Component {
             title: '',
             category: '',
             description: '',
-            start_time: '',
-            end_time: '',
             address: '',
             date: 0,
             dropzone: '',
             zipcode: '',
             multiline: 'Controlled',
+            start_date: new Date(),
+            end_date: new Date()
         }
     }
+
+
 
     handleAllFormChanges = (props, val) => {
         this.setState({
@@ -44,11 +51,22 @@ class EventForm extends Component {
         })
     }
 
+    handleDateStartChange = (date) => {
+        this.setState({
+            start_date: date
+        });
+    }
+    handleDateEndChange = (date) => {
+        this.setState({
+            end_date: date
+        });
+    }
+
     submitForm = () => {
-        const { title, category, description, address, start_time, end_time, date, zipcode } = this.state
+        const { title, category, description, address, start_date, end_date, zipcode } = this.state
 
         if (this.state.location === 'local') {
-            axios.post('/api/submitForm', { title, category, description, address, start_time, end_time, date, zipcode })
+            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode })
 
         } else if (this.state.location === 'online') {
             let obj = {
@@ -56,20 +74,39 @@ class EventForm extends Component {
                 address: 'online'
             }
             const { address, zipcode } = obj
-            axios.post('/api/submitForm', { title, category, description, address, start_time, end_time, date, zipcode })
+            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode })
         }
         // e.preventDefault()
     }
 
-    
+
     render() {
+        const categories = [ 'PC', 'VR', 'PlayStation', 'Xbox', 'Switch', 'LARP', 'Board Games', 'Retro' ]
+        const mappedCategories = categories.map((cat, i) => {
+            return <MenuItem value={ cat } key={ i }>{ cat }</MenuItem>
+        })
         return (
 
             <form >
                 <fieldset>
 
-                    {/** Radio Buttons */ }
+{/**
+// !
+// ! Radio Buttons
+// !
+*/}
                     <FormControl>
+
+                        <InputLabel>Category</InputLabel>
+                        <Select
+                            value={ this.state.category }
+                            onChange={ (e) => this.handleAllFormChanges('category', e.target.value) }
+                        >
+                            { mappedCategories }
+                        </Select>
+
+                        <br />
+
                         <FormLabel component='legend'>Will your event be</FormLabel>
                         <RadioGroup
                             aria-label="position"
@@ -95,6 +132,35 @@ class EventForm extends Component {
 
                     <br />
 
+{/**
+// !
+// ! Date Picker
+// !
+*/}
+                    <DatePicker
+                        selected={ this.state.start_date }
+                        selectsStart
+                        startDate={ this.state.start_date }
+                        onChange={ this.handleDateStartChange }
+                        showTimeSelect={ true }
+                        shouldCloseOnSelect={ true }
+                        dateFormat={ 'MMMM d, yyyy h:mm aa' }
+                    />
+
+                    <DatePicker
+                        selected={ this.state.end_date }
+                        selectsEnd
+                        endDate={ this.state.end_date }
+                        onChange={ this.handleDateEndChange }
+                        showTimeSelect={ true }
+                        shouldCloseOnSelect={ true }
+                        dateFormat={ 'MMMM d, yyyy h:mm aa' }
+                    />
+{/**
+// !
+// ! Text Fields
+// !
+*/} 
                     <TextField
                         id='standard-title'
                         label='Title'
@@ -103,16 +169,6 @@ class EventForm extends Component {
                         margin='normal'
                     />
 
-                    <TextField
-                        id='standard-title'
-                        label='Category'
-                        value={ this.state.category }
-                        onChange={ e => this.handleAllFormChanges('category', e.target.value) }
-                        margin='normal'
-                    />
-                    {/**
-* ! add new option to select local vs online --- will need ternary !!!! if online is selected then the address textfield does not show up... if local is selected then address will show up with zipcode... if online setstate zipcode to 1000
-*/}
                     <TextField
                         id="standard-multiline-flexible"
                         label="Description"
@@ -140,26 +196,7 @@ class EventForm extends Component {
                         onChange={ e => this.handleAllFormChanges('zipcode', e.target.value) }
                         margin='normal'
                     />
-                    <br />
-                    {/** Date & Time */ }
-                    <TextField
-                        id="datetime-local"
-                        label="Start Time"
-                        type="datetime-local"
-                        InputLabelProps={ {
-                            shrink: true,
-                        } }
-                        onChange={ e => this.handleAllFormChanges('start_time', e.target.value) }
-                    />
-                    <TextField
-                        id="datetime-local"
-                        label="End Time"
-                        type="datetime-local"
-                        InputLabelProps={ {
-                            shrink: true,
-                        } }
-                        onChange={ e => this.handleAllFormChanges('end_time', e.target.value) }
-                    />
+
 
                 </fieldset>
                 <button type='button' onClick={ () => this.submitForm() }>button</button>
