@@ -24,7 +24,8 @@
     "redux": "^4.0.1",
     "redux-form": "^8.1.0",
     "redux-persist": "^5.10.0",
-    "stripe": "^6.28.0"
+    "stripe": "^6.28.0",
+    "zipcodes": "^8.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
