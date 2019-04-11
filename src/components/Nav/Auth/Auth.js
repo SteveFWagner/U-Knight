@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Modal from '@material-ui/core/Modal';
 import axios from 'axios';
-import { updateUser, clearUser} from "../../../ducks/reducer";
+import { updateUser, clearUser } from "../../../ducks/reducer";
 import { connect } from 'react-redux';
 
 const styles = theme => ({
@@ -89,7 +89,7 @@ class Auth extends Component {
     try {
       let res = await axios.post('/auth/login', user)
       this.props.updateUser(res.data)
-      console.log(4545454,res.data)
+      console.log(4545454, res.data)
       this.handleModalOneClose()
       alert('logged in')
     } catch (err) {
@@ -116,7 +116,7 @@ class Auth extends Component {
   async logout() {
     await axios.post('/auth/logout')
     this.props.clearUser()
-}
+  }
   handleChange(prop, val) {
     this.setState({
       [prop]: val
@@ -128,123 +128,123 @@ class Auth extends Component {
     console.log(3333, this.props)
     const { classes } = this.props
 
-    if(this.props.user_id !== 0){
+    if (this.props.user_id !== 0) {
       return (
         <div>
           <Button
-          onClick={() => this.logout()}
-          variant="contained"
-          color="primary"
+            onClick={() => this.logout()}
+            variant="contained"
+            color="primary"
           >
-          Logout
+            Logout
           </Button>
         </div>
       )
     } else {
 
-    return (
-      
-      <div>
-        <Button
-          onClick={() => this.handleModalOneOpen()}
-          variant="contained"
-          color="primary"
-        >
-          Login
-            </Button>
-        <Modal
-          open={this.state.open}
-          onClose={() => this.handleModalOneClose()}
-        >
-          <main className={classes.main}>
-            <CssBaseline />
-            <Paper className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign in
-        </Typography>
-              <form className={classes.form}>
-                <FormControl margin="normal" required fullWidth>
-                  <InputLabel htmlFor="email">Email Address</InputLabel>
-                  <Input onChange={e => this.handleChange('email', e.target.value)} autoFocus />
-                </FormControl>
-                <FormControl margin="normal" required fullWidth>
-                  <InputLabel htmlFor="password">Password</InputLabel>
-                  <Input type="password" onChange={e => this.handleChange('password', e.target.value)} />
-                </FormControl>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick={() => { this.login() }}
-                >
-                  Sign in
-          </Button>
-                <Button
-                  onClick={() => this.handleModalTwoOpen()}
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  fullWidth
-                >
-                  Create a user
-            </Button>
-              </form>
-            </Paper>
-          </main>
-        </Modal>
+      return (
 
-        <Modal
-          open={this.state.openTwo}
-          onClose={() => this.handleModalTwoClose()}
-        >
-          <main className={classes.main}>
-            <CssBaseline />
-            <Paper className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Create user
+        <div>
+          <Button
+            onClick={() => this.handleModalOneOpen()}
+            variant="contained"
+            color="primary"
+          >
+            Login
+            </Button>
+          <Modal
+            open={this.state.open}
+            onClose={() => this.handleModalOneClose()}
+          >
+            <main className={classes.main}>
+              <CssBaseline />
+              <Paper className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Sign in
+        </Typography>
+                <form className={classes.form}>
+                  <FormControl margin="normal" required fullWidth>
+                    <InputLabel htmlFor="email">Email Address</InputLabel>
+                    <Input onChange={e => this.handleChange('email', e.target.value)} autoFocus />
+                  </FormControl>
+                  <FormControl margin="normal" required fullWidth>
+                    <InputLabel htmlFor="password">Password</InputLabel>
+                    <Input type="password" onChange={e => this.handleChange('password', e.target.value)} />
+                  </FormControl>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={() => { this.login() }}
+                  >
+                    Sign in
+          </Button>
+                  <Button
+                    onClick={() => this.handleModalTwoOpen()}
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    fullWidth
+                  >
+                    Create a user
+            </Button>
+                </form>
+              </Paper>
+            </main>
+          </Modal>
+
+          <Modal
+            open={this.state.openTwo}
+            onClose={() => this.handleModalTwoClose()}
+          >
+            <main className={classes.main}>
+              <CssBaseline />
+              <Paper className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Create user
                                 </Typography>
-              <form className={classes.form}>
-                <FormControl margin="normal" required fullWidth>
-                  <InputLabel htmlFor="email">Email Address</InputLabel>
-                  <Input onChange={e => this.handleChange('email', e.target.value)} autoFocus />
-                </FormControl>
-                <FormControl margin="normal" required fullWidth>
-                  <InputLabel htmlFor="email">User name </InputLabel>
-                  <Input onChange={e => this.handleChange('username', e.target.value)} />
-                </FormControl>
-                <FormControl margin="normal" required fullWidth>
-                  <InputLabel htmlFor="password">Password</InputLabel>
-                  <Input type="password" onChange={e => this.handleChange('password', e.target.value)} />
-                </FormControl>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick={() => { this.register() }}
-                >
-                  create
+                <form className={classes.form}>
+                  <FormControl margin="normal" required fullWidth>
+                    <InputLabel htmlFor="email">Email Address</InputLabel>
+                    <Input onChange={e => this.handleChange('email', e.target.value)} autoFocus />
+                  </FormControl>
+                  <FormControl margin="normal" required fullWidth>
+                    <InputLabel htmlFor="email">User name </InputLabel>
+                    <Input onChange={e => this.handleChange('username', e.target.value)} />
+                  </FormControl>
+                  <FormControl margin="normal" required fullWidth>
+                    <InputLabel htmlFor="password">Password</InputLabel>
+                    <Input type="password" onChange={e => this.handleChange('password', e.target.value)} />
+                  </FormControl>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={() => { this.register() }}
+                  >
+                    create
                                   </Button>
 
-              </form>
-            </Paper>
-          </main>
-        </Modal>
+                </form>
+              </Paper>
+            </main>
+          </Modal>
 
-      </div>
-    )
+        </div>
+      )
+    }
   }
 }
-}
 const mapStateToProps = (state) => {
-  return{
+  return {
     user_id: state.user_id,
     email: state.email,
     username: state.username,
@@ -256,4 +256,4 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps, {updateUser, clearUser})(withStyles(styles)(Auth))
+export default connect(mapStateToProps, { updateUser, clearUser })(withStyles(styles)(Auth))
