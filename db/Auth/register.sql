@@ -1,3 +1,3 @@
-INSERT INTO users ( email, password, username, image )
-VALUES ( ${email}, ${password}, ${username}, ${image} )
-returning user_id, username, password, email, image
+INSERT INTO users ( username, password, email)
+VALUES ( ${username}, ${password}, ${email} )
+returning user_id, username, email, image
