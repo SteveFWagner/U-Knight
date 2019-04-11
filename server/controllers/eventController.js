@@ -14,7 +14,7 @@ module.exports = {
       res.status(200).send(resp)
     }).catch(err => {
       console.log(err)
-      res.status(500).send(resp)
+      res.status(500).send(err)
     })
     console.log('does stuff')
   },
