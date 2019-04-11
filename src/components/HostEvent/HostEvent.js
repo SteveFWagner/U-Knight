@@ -1,10 +1,16 @@
 import React from 'react';
-import Form from './Form/Form'
+import EventForm from './Form/EventForm'
 
 function HostEvent(){
+
+
     return(
-            <Form />
+            <EventForm />
         )
 }
 
+
+
 export default HostEvent
+
+// 
