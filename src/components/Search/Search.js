@@ -19,32 +19,73 @@ class Search extends Component{
             events:[],
             category:'',
             location:'',
-            zipcode:null,
-            distance:null,
-            searchString:''
+            zipcode:12345,
+            distance:'',
+            searchString:'',
+            searchResults:[]
         }
     }
 
     componentDidMount(){
         this.getData()
+        this.getLocation()
+    }
+
+    getLocation(){
+        let options = {
+            enableHighAccuracy:true
+        }
+
+        navigator.geolocation.getCurrentPosition(success =>{
+            console.log(success)
+        },err => console.log(err),options)
     }
 
     getData(){
         axios.get('/events')
         .then( res =>{
             this.setState({
-                events:res.data
+                events:res.data,
+                searchResults:res.data
             })
         }
         )
     }
 
-    handleUserInput(prop, val){
-        this.setState({
-            [prop]:val
-        })
+    handleUserInput=(prop, val)=>{
+        if(prop !== 'searchString'){
+            this.setState({
+                [prop]:val
+            })
+        }else{
+            this.setState({
+                [prop]:val
+            })
+            this.handleSearch()
+        }
     }
 
+    handleSearch=()=>{
+        console.log('button pressed')
+        const {searchString, events} = this.state
+        let results = []
+        events.forEach(event =>{
+            if(
+                event.title.toUpperCase().includes(searchString.toLocaleUpperCase())
+                ||
+                event.description.toUpperCase().includes(searchString.toLocaleUpperCase())
+                ||
+                event.category.toUpperCase().includes(searchString.toLocaleUpperCase())
+            ){
+                results.push(event)
+                console.log('hit')
+            }
+        })
+        console.log(results)
+        this.setState({
+            searchResults:results
+        })
+    }
 
     render(){
         console.log(this.state)
@@ -54,9 +95,6 @@ class Search extends Component{
            return <MenuItem value={cat} key={i}>{cat}</MenuItem>
         })
         
-        //locations
-        const locations = ['Online', 'Local']
-
         //If 'Local' is selected as the Location - display Zip Code and Distance
         let localDisplay = null
 
@@ -64,19 +102,22 @@ class Search extends Component{
         const mappedDistances = distances.map((dist,i)=>{
             if(dist !== 'Any Distance'){
                 return <MenuItem value={dist} key={i}>{dist}</MenuItem>
-            }else if(dist === 'Any Distance'){
-                return <MenuItem value={null} key={i}>{dist}</MenuItem>
+            }else{
+                return <MenuItem value={''} key={i}>{dist}</MenuItem>
             }
         })
 
         if(this.state.location === 'local'){
             localDisplay = (
             <div>
-                <TextField label='Zip Code'/>
+                <TextField label='Zip Code' 
+                    defaultValue={this.state.zipcode} 
+                    onChange={(e) => this.handleUserInput('zipcode',e.target.value)}
+                />
                 <FormControl>
-                    <InputLabel>Location</InputLabel>
+                    <InputLabel>Distance</InputLabel>
                     <Select
-                        value={this.state.location}
+                        value={this.state.distance}
                         onChange={(e)=>this.handleUserInput('distance',e.target.value)}
                         >
                         {mappedDistances}
@@ -85,8 +126,6 @@ class Search extends Component{
             </div>
             )
         }
-
-
 
         return(
             <div>
@@ -129,16 +168,9 @@ class Search extends Component{
                             label='Search for an event...' 
                             onChange={e => this.handleUserInput('searchString',e.target.value)}
                         />
-                        <Button 
-                            variant='contained' 
-                            color='primary'
-                            // onClick={}
-                        >
-                            Find it!
-                        </Button>
                     </form>                
 
-                <EventsContainer data={this.state.events}/>
+                <EventsContainer data={this.state.searchResults}/>
             </div>
         )
     }
