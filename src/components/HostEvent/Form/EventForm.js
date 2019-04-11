@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import './form.css'
 
 // ! Radio Button
 import Radio from '@material-ui/core/Radio';
@@ -18,6 +19,10 @@ import TextField from '@material-ui/core/TextField';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+// ! Dropzone
+import S3Dropzone from '../../Dropzone/S3Dropzone'
+
+
 class EventForm extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +36,7 @@ class EventForm extends Component {
             zipcode: '',
             multiline: 'Controlled',
             start_date: new Date(),
-            end_date: new Date()
+            end_date: new Date(),
         }
     }
 
@@ -90,11 +95,8 @@ class EventForm extends Component {
             <form >
                 <fieldset>
 
-{/**
-// !
-// ! Radio Buttons
-// !
-*/}
+        <S3Dropzone />
+            
                     <FormControl>
 
                         <InputLabel>Category</InputLabel>
@@ -105,6 +107,14 @@ class EventForm extends Component {
                             { mappedCategories }
                         </Select>
 
+
+                        <TextField
+                        id='standard-title'
+                        label='Title'
+                        value={ this.state.title }
+                        onChange={ e => this.handleAllFormChanges('title', e.target.value) }
+                        margin='normal'
+                    />
                         <br />
 
                         <FormLabel component='legend'>Will your event be</FormLabel>
@@ -113,6 +123,8 @@ class EventForm extends Component {
                             name="position"
                             value={ this.state.location }
                             onChange={ e => this.handleAllFormChanges('location', e.target.value) }
+                            row={true}
+                            checked={true}
                         >
                             <FormControlLabel
                                 value='online'
@@ -123,7 +135,7 @@ class EventForm extends Component {
                             />
                             <FormControlLabel
                                 value='local'
-                                control={ <Radio color="primary" /> }
+                                control={ <Radio color="secondary" /> }
                                 label="Local"
                                 labelPlacement="start"
                             />
@@ -132,11 +144,6 @@ class EventForm extends Component {
 
                     <br />
 
-{/**
-// !
-// ! Date Picker
-// !
-*/}
                     <DatePicker
                         selected={ this.state.start_date }
                         selectsStart
@@ -156,28 +163,7 @@ class EventForm extends Component {
                         shouldCloseOnSelect={ true }
                         dateFormat={ 'MMMM d, yyyy h:mm aa' }
                     />
-{/**
-// !
-// ! Text Fields
-// !
-*/} 
-                    <TextField
-                        id='standard-title'
-                        label='Title'
-                        value={ this.state.title }
-                        onChange={ e => this.handleAllFormChanges('title', e.target.value) }
-                        margin='normal'
-                    />
-
-                    <TextField
-                        id="standard-multiline-flexible"
-                        label="Description"
-                        multiline
-                        rowsMax="4"
-                        value={ this.state.description }
-                        onChange={ e => this.handleAllFormChanges('description', e.target.value) }
-                        margin="normal"
-                    />
+                               
                     <br />
 
                     <TextField
@@ -195,6 +181,17 @@ class EventForm extends Component {
                         value={ this.state.zipcode }
                         onChange={ e => this.handleAllFormChanges('zipcode', e.target.value) }
                         margin='normal'
+                    />
+
+                    <TextField
+                        fullWidth
+                        id="standard-multiline-flexible"
+                        label="Description"
+                        multiline
+                        rowsMax="11"
+                        value={ this.state.description }
+                        onChange={ e => this.handleAllFormChanges('description', e.target.value) }
+                        margin="normal"
                     />
 
 
