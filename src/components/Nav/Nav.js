@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Auth from './Auth/Auth'
 
 class Nav extends Component{
     
@@ -6,7 +7,10 @@ class Nav extends Component{
 
     render(){
         return(
-            <div>Nav</div>
+            <div>
+                Nav
+                <Auth />
+            </div>
         )
     }
 }

@@ -2,28 +2,21 @@ const bcrypt = require('bcryptjs')
 
 module.exports = {
     register: async (req, res) => {
-        const { email, password, username, image } = req.body;
+        const { email, password, username } = req.body;
         const { session } = req;
         const db = req.app.get('db');
-        let takenEmail = await db.check_email({email})
+        let takenEmail = await db.Auth.check_email({email})
         
+
         takenEmail = takenEmail[0]
 
-        let takenUserName = await db.check_username({username})
-
-        takenUserName = takenUserName[0]
-
         if(takenEmail) {
-            return res.status(409).send("Email is already in use")
+            return res.sendStatus(409)
         }
-
-        if(takenUserName){
-            return res.status(409).send("Username has already been taken")
-        }
-
-        let salt = bcrypt.genSaltSync(10);
-        let hash = bcrypt.hashSync(password ,salt);
-        let user = await db.register({ email, password: hash, username, image })
+        // let salt = bcrypt.genSaltSync();
+        // let hash = bcrypt.hashSync(password ,salt);
+        console.log({password})
+        let user = await db.Auth.register({ email, password, username})
         user = user[0]
         session.user = user
         res.status(200).send(session.user)
@@ -33,21 +26,20 @@ module.exports = {
         const { session } = req
         const db = req.app.get('db')
         
-        let user = await db.login({email})
-
+        let user = await db.Auth.login({email})
+        
+        
         user = user[0]
-        
         if(!user) {
-            res.status(401).send('There is no user found with the email submitted.')
+           return res.sendStatus(401)
         }
-        
         let authenticated = bcrypt.compareSync( password, user.password )
         if(authenticated){
             delete user.password
             session.user = user
             res.status(200).send(session.user)
         } else {
-            res.status(401).send('Incorrect password')
+           return res.status(401).send('Incorrect password')
         }
     },
     getUser: async ( req, res ) => {
