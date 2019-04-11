@@ -13,10 +13,15 @@ module.exports = {
         if(takenEmail) {
             return res.sendStatus(409)
         }
-        // let salt = bcrypt.genSaltSync();
-        // let hash = bcrypt.hashSync(password ,salt);
-        console.log({password})
-        let user = await db.Auth.register({ email, password, username})
+        let takenUsername = await db.Auth.check_username({username})
+        takenUsername = takenUsername[0]
+        if(takenUsername) {
+            return res.status(409).send('username is already in use')
+        }
+        let salt = bcrypt.genSaltSync();
+        let hash = bcrypt.hashSync(password ,salt);
+        console.log(123,{password})
+        let user = await db.Auth.register({ email, password: hash, username})
         user = user[0]
         session.user = user
         res.status(200).send(session.user)
@@ -35,6 +40,7 @@ module.exports = {
         }
         let authenticated = bcrypt.compareSync( password, user.password )
         if(authenticated){
+            console.log('hit')
             delete user.password
             session.user = user
             res.status(200).send(session.user)
