@@ -9,6 +9,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
 
 const styles = {
     root: {
@@ -74,6 +76,17 @@ class Nav extends Component {
                         <Typography variant="h6" color="inherit" className={classes.grow}>
                             LOGO
           </Typography>
+          <Button
+          onClick={() => this.route('/account')}
+          >
+          <CardMedia
+          className={classes.media}
+          image="http://urly.fi/1cw4"
+          title="Contemplative Reptile"
+          style={{borderRadius: '50%', width: 60, height: 60}}
+          
+        />
+        </Button>
                         <Auth />
                     </Toolbar>
                 </AppBar>
