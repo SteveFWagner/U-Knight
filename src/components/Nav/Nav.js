@@ -15,6 +15,7 @@ import { snackOpen, snackClose, modalOneOpen } from "../../ducks/reducer";
 import { connect } from "react-redux";
 import Snackbar from "@material-ui/core/Snackbar";
 import Games from '@material-ui/icons/VideogameAsset';
+import Logo from '../../media/Logo.svg'
 
 const styles = {
   root: {
@@ -79,11 +80,12 @@ class Nav extends Component {
               onClick={() => this.route("/")}
               style={{ marginLeft: 30, marginRight: 20 }}
             >
-              <Games
+            <img src={Logo} alt="ukinght" style={{width:100,height:'auto'}}/>
+              {/* <Games
                 color='primary'
 
                 style={{ width: 60, height: 60 }}
-              />
+              /> */}
             </IconButton>
             <Menu
               id="simple-menu"
