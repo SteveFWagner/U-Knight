@@ -61,7 +61,7 @@ class Nav extends Component {
     const { menu } = this.state;
     return (
       <div>
-        <AppBar position="static" color='dark'>
+        <AppBar position="static" color='default'>
           <Toolbar>
             <IconButton
               className={classes.menuButton}
@@ -70,27 +70,27 @@ class Nav extends Component {
               onClick={this.handleMenuClick}
               aria-owns={menu ? "simple-menu" : undefined}
               aria-haspopup="true"
-              
+
             >
               <MenuIcon
-              style={{width: 40, height: 40 }} />
+                style={{ width: 40, height: 40 }} />
             </IconButton>
             <IconButton
-            onClick={() => this.route("/")}
-            style={{marginLeft: 30, marginRight: 20}}
+              onClick={() => this.route("/")}
+              style={{ marginLeft: 30, marginRight: 20 }}
             >
               <Games
-              color='primary'
-              
-              style={{ width: 60, height: 60 }}
-              /> 
-              </IconButton>
+                color='primary'
+
+                style={{ width: 60, height: 60 }}
+              />
+            </IconButton>
             <Menu
               id="simple-menu"
               menu={menu}
               open={Boolean(menu)}
               onClose={this.handleClose}
-              
+
             >
               <ClickAwayListener onClickAway={this.handleMenuClose}>
                 <div>
@@ -108,7 +108,7 @@ class Nav extends Component {
               </ClickAwayListener>
             </Menu>
             <Typography variant="h6" color="inherit" className={classes.grow}>
-             U-KNIGHT
+              U-KNIGHT
             </Typography>
             <Button onClick={() => this.route("/account")}>
               <CardMedia
