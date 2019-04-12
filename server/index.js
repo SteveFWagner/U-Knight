@@ -57,3 +57,4 @@ const ctrlUser = require('./controllers/authController')
 // ! AWS
 
 app.get('/api/signs3', eCt.s3Upload)
+app.post('/api/')
