@@ -6,6 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -35,7 +36,7 @@ const styles = theme => ({
   },
   avatar: {
     margin: theme.spacing.unit,
-    backgroundColor: "#313F9F",
+    backgroundColor: "#F50357",
   },
   form: {
     width: '100%',
@@ -120,7 +121,7 @@ class Auth extends Component {
           <Button
             onClick={() => this.logout()}
             variant="contained"
-            color="primary"
+            color="secondary"
           >
             Logout
           </Button>
@@ -134,7 +135,7 @@ class Auth extends Component {
           <Button
             onClick={() => this.handleModalOneOpen()}
             variant="contained"
-            color="primary"
+            color="secondary"
           >
             Login
             </Button>
@@ -146,7 +147,10 @@ class Auth extends Component {
               <CssBaseline />
               <Paper className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                  <LockOutlinedIcon />
+                  <LockOutlinedIcon
+                  color="secondary"
+                  style={{color: 'white'}}
+                  />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                   Sign in
@@ -163,7 +167,7 @@ class Auth extends Component {
                   <Button
                     fullWidth
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className={classes.submit}
                     onClick={() => { this.login() }}
                   >
@@ -172,7 +176,7 @@ class Auth extends Component {
                   <Button
                     onClick={() => this.handleModalTwoOpen()}
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className={classes.submit}
                     fullWidth
                   >
@@ -191,7 +195,9 @@ class Auth extends Component {
               <CssBaseline />
               <Paper className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                  <LockOutlinedIcon />
+                <LockOutlinedIcon
+                  style={{color: 'white'}}
+                  />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                   Create user
@@ -212,7 +218,7 @@ class Auth extends Component {
                   <Button
                     fullWidth
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className={classes.submit}
                     onClick={() => { this.register() }}
                   >
