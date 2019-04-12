@@ -27,6 +27,7 @@ class S3Dropzone extends Component {
       },
     })
       .then(response => {
+        console.log(response.data)
         const { signedRequest, url } = response.data;
         this.uploadFile(file, signedRequest, url);
       })
@@ -44,8 +45,8 @@ class S3Dropzone extends Component {
 
     axios.put(signedRequest, file, options)
       .then(response => {
-        this.setState({ isUploading: false, url });
-        // THEN DO SOMETHING WITH THE URL. SEND TO DB USING POST REQUEST OR SOMETHING
+        this.setState({ isUploading: false, url })
+        this.props.handleDropzone(url)
       })
       .catch(err => {
         this.setState({
@@ -64,6 +65,8 @@ class S3Dropzone extends Component {
   };
 
   render() {
+    console.log('this is the url',this.state.url)
+    console.log(11111,this.props)
     const { url, isUploading } = this.state;
     return (
       <div className="App">
@@ -72,6 +75,20 @@ class S3Dropzone extends Component {
         <img src={ url } alt="" width="450px" />
 
         <Dropzone
+        style={{
+          position: 'relative',
+          width: 200,
+          height: 200,
+          borderWidth: 7,
+          marginTop: 100,
+          borderColor: 'rgb(102, 102, 102)',
+          borderStyle: 'dashed',
+          borderRadius: 5,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontSize: 28,
+        }}
           onDropAccepted={ this.getSignedRequest }
           accept="image/*"
           multiple={ false }

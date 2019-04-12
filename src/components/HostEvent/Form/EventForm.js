@@ -14,6 +14,7 @@ import Select from '@material-ui/core/Select'
 // ! Text Field 
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import InputBase from '@material-ui/core/InputBase'
 
 // ! Date Picker
 import DatePicker from "react-datepicker";
@@ -67,11 +68,17 @@ class EventForm extends Component {
         });
     }
 
+    handleDropzone = (value) => {
+        this.setState({
+            dropzone:value
+        })
+    }
+
     submitForm = () => {
-        const { title, category, description, address, start_date, end_date, zipcode } = this.state
+        const { title, category, description, address, start_date, end_date, zipcode, dropzone } = this.state
 
         if (this.state.location === 'local') {
-            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode })
+            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone })
 
         } else if (this.state.location === 'online') {
             let obj = {
@@ -79,7 +86,7 @@ class EventForm extends Component {
                 address: 'online'
             }
             const { address, zipcode } = obj
-            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode })
+            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone})
         }
         // e.preventDefault()
     }
@@ -90,12 +97,13 @@ class EventForm extends Component {
         const mappedCategories = categories.map((cat, i) => {
             return <MenuItem value={ cat } key={ i }>{ cat }</MenuItem>
         })
+        console.log(222222,this.state)
         return (
 
             <form >
                 <fieldset>
 
-        <S3Dropzone />
+        <S3Dropzone handleDropzone={this.handleDropzone}/>
             
                     <FormControl>
 
@@ -106,7 +114,7 @@ class EventForm extends Component {
                         >
                             { mappedCategories }
                         </Select>
-
+                        </FormControl>
 
                         <TextField
                         id='standard-title'
@@ -140,7 +148,7 @@ class EventForm extends Component {
                                 labelPlacement="start"
                             />
                         </RadioGroup>
-                    </FormControl>
+                        
 
                     <br />
 
@@ -182,7 +190,7 @@ class EventForm extends Component {
                         onChange={ e => this.handleAllFormChanges('zipcode', e.target.value) }
                         margin='normal'
                     />
-
+<InputBase>
                     <TextField
                         fullWidth
                         id="standard-multiline-flexible"
@@ -193,6 +201,7 @@ class EventForm extends Component {
                         onChange={ e => this.handleAllFormChanges('description', e.target.value) }
                         margin="normal"
                     />
+                    </InputBase>
 
 
                 </fieldset>
