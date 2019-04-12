@@ -14,6 +14,7 @@ import Button from "@material-ui/core/Button";
 import { snackOpen, snackClose, modalOneOpen } from "../../ducks/reducer";
 import { connect } from "react-redux";
 import Snackbar from "@material-ui/core/Snackbar";
+import Games from '@material-ui/icons/VideogameAsset';
 
 const styles = {
   root: {
@@ -60,7 +61,7 @@ class Nav extends Component {
     const { menu } = this.state;
     return (
       <div>
-        <AppBar position="static">
+        <AppBar position="static" color='dark'>
           <Toolbar>
             <IconButton
               className={classes.menuButton}
@@ -69,15 +70,27 @@ class Nav extends Component {
               onClick={this.handleMenuClick}
               aria-owns={menu ? "simple-menu" : undefined}
               aria-haspopup="true"
+              
             >
-              <MenuIcon />
+              <MenuIcon
+              style={{width: 40, height: 40 }} />
             </IconButton>
-
+            <IconButton
+            onClick={() => this.route("/")}
+            style={{marginLeft: 30, marginRight: 20}}
+            >
+              <Games
+              color='primary'
+              
+              style={{ width: 60, height: 60 }}
+              /> 
+              </IconButton>
             <Menu
               id="simple-menu"
               menu={menu}
               open={Boolean(menu)}
               onClose={this.handleClose}
+              
             >
               <ClickAwayListener onClickAway={this.handleMenuClose}>
                 <div>
@@ -95,14 +108,14 @@ class Nav extends Component {
               </ClickAwayListener>
             </Menu>
             <Typography variant="h6" color="inherit" className={classes.grow}>
-              LOGO
+             U-KNIGHT
             </Typography>
             <Button onClick={() => this.route("/account")}>
               <CardMedia
                 className={classes.media}
                 image="http://urly.fi/1cw4"
                 title="Contemplative Reptile"
-                style={{ borderRadius: "50%", width: 60, height: 60 }}
+                style={{ borderRadius: "50%", marginRight: 30, width: 60, height: 60 }}
               />
             </Button>
             <Auth />
@@ -116,7 +129,7 @@ class Nav extends Component {
           ContentProps={{
             "aria-describedby": "message-id"
           }}
-          message={<span id="message-id"> You must log in to proceed </span>}
+          message={<span > You must log in to proceed </span>}
         />
       </div>
     );
