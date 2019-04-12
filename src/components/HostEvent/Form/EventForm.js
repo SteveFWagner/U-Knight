@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import './form.css'
 
 // ! Radio Button
 import Radio from '@material-ui/core/Radio';
@@ -13,10 +14,15 @@ import Select from '@material-ui/core/Select'
 // ! Text Field 
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import InputBase from '@material-ui/core/InputBase'
 
 // ! Date Picker
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+// ! Dropzone
+import S3Dropzone from '../../Dropzone/S3Dropzone'
+
 
 class EventForm extends Component {
     constructor(props) {
@@ -31,7 +37,7 @@ class EventForm extends Component {
             zipcode: '',
             multiline: 'Controlled',
             start_date: new Date(),
-            end_date: new Date()
+            end_date: new Date(),
         }
     }
 
@@ -62,11 +68,17 @@ class EventForm extends Component {
         });
     }
 
+    handleDropzone = (value) => {
+        this.setState({
+            dropzone:value
+        })
+    }
+
     submitForm = () => {
-        const { title, category, description, address, start_date, end_date, zipcode } = this.state
+        const { title, category, description, address, start_date, end_date, zipcode, dropzone } = this.state
 
         if (this.state.location === 'local') {
-            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode })
+            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone })
 
         } else if (this.state.location === 'online') {
             let obj = {
@@ -74,7 +86,7 @@ class EventForm extends Component {
                 address: 'online'
             }
             const { address, zipcode } = obj
-            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode })
+            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone})
         }
         // e.preventDefault()
     }
@@ -85,16 +97,14 @@ class EventForm extends Component {
         const mappedCategories = categories.map((cat, i) => {
             return <MenuItem value={ cat } key={ i }>{ cat }</MenuItem>
         })
+        console.log(222222,this.state)
         return (
 
             <form >
                 <fieldset>
 
-{/**
-// !
-// ! Radio Buttons
-// !
-*/}
+        <S3Dropzone handleDropzone={this.handleDropzone}/>
+            
                     <FormControl>
 
                         <InputLabel>Category</InputLabel>
@@ -104,7 +114,15 @@ class EventForm extends Component {
                         >
                             { mappedCategories }
                         </Select>
+                        </FormControl>
 
+                        <TextField
+                        id='standard-title'
+                        label='Title'
+                        value={ this.state.title }
+                        onChange={ e => this.handleAllFormChanges('title', e.target.value) }
+                        margin='normal'
+                    />
                         <br />
 
                         <FormLabel component='legend'>Will your event be</FormLabel>
@@ -113,6 +131,8 @@ class EventForm extends Component {
                             name="position"
                             value={ this.state.location }
                             onChange={ e => this.handleAllFormChanges('location', e.target.value) }
+                            row={true}
+                            checked={true}
                         >
                             <FormControlLabel
                                 value='online'
@@ -123,20 +143,15 @@ class EventForm extends Component {
                             />
                             <FormControlLabel
                                 value='local'
-                                control={ <Radio color="primary" /> }
+                                control={ <Radio color="secondary" /> }
                                 label="Local"
                                 labelPlacement="start"
                             />
                         </RadioGroup>
-                    </FormControl>
+                        
 
                     <br />
 
-{/**
-// !
-// ! Date Picker
-// !
-*/}
                     <DatePicker
                         selected={ this.state.start_date }
                         selectsStart
@@ -156,28 +171,7 @@ class EventForm extends Component {
                         shouldCloseOnSelect={ true }
                         dateFormat={ 'MMMM d, yyyy h:mm aa' }
                     />
-{/**
-// !
-// ! Text Fields
-// !
-*/} 
-                    <TextField
-                        id='standard-title'
-                        label='Title'
-                        value={ this.state.title }
-                        onChange={ e => this.handleAllFormChanges('title', e.target.value) }
-                        margin='normal'
-                    />
-
-                    <TextField
-                        id="standard-multiline-flexible"
-                        label="Description"
-                        multiline
-                        rowsMax="4"
-                        value={ this.state.description }
-                        onChange={ e => this.handleAllFormChanges('description', e.target.value) }
-                        margin="normal"
-                    />
+                               
                     <br />
 
                     <TextField
@@ -196,6 +190,18 @@ class EventForm extends Component {
                         onChange={ e => this.handleAllFormChanges('zipcode', e.target.value) }
                         margin='normal'
                     />
+<InputBase>
+                    <TextField
+                        fullWidth
+                        id="standard-multiline-flexible"
+                        label="Description"
+                        multiline
+                        rowsMax="11"
+                        value={ this.state.description }
+                        onChange={ e => this.handleAllFormChanges('description', e.target.value) }
+                        margin="normal"
+                    />
+                    </InputBase>
 
 
                 </fieldset>
