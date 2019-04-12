@@ -7,9 +7,9 @@ const EventsContainer = (props) => {
         return <EventList data={data} key={i}/>
     })
     return (
-        <div>
+        <>
             {mappedEvents}
-        </div>
+        </>
     );
 };
 

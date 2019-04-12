@@ -1,7 +1,8 @@
 #event-container{
     padding:10px;
     margin:10px;
-    width:80%;
+    width:75vw;
     display: flex;
     justify-content: space-between;
 }
+

@@ -5,6 +5,7 @@ import zipcodes from 'zipcodes'
 import Button from '@material-ui/core/Button'
 import moment from 'moment'
 import {Link} from 'react-router-dom'
+import Slide from '@material-ui/core/Slide'
 
 import './EventList.css'
 
@@ -52,6 +53,8 @@ class EventList extends Component{
     
     render(){
         return(
+            <Slide direction='up' in={true} timeout={500} mountOnEnter unmountOnExit>
+
                 <Paper elevation={1} id='event-container'>
                     <div>
                         <Typography variant='h5'>{this.props.data.title}</Typography>
@@ -67,6 +70,7 @@ class EventList extends Component{
                         </Button>
                     </div>
                 </Paper>
+            </Slide>
         )
     }
 }
