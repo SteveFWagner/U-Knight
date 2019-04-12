@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Modal from '@material-ui/core/Modal';
 import axios from 'axios';
-import { updateUser, clearUser } from "../../../ducks/reducer";
+import { updateUser, clearUser, modalOneOpen, modalOneClose, modalTwoOpen, modalTwoClose } from "../../../ducks/reducer";
 import { connect } from 'react-redux';
 
 const styles = theme => ({
@@ -52,34 +52,22 @@ class Auth extends Component {
     this.state = {
       email: '',
       username: '',
-      password: '',
-      open: false,
-      openTwo: false
+      password: ''
     }
   }
   handleModalOneOpen = () => {
-    this.setState({
-      open: true
-    })
+    this.props.modalOneOpen()
   }
   handleModalOneClose = () => {
-    this.setState({
-      open: false
-    })
+    this.props.modalOneClose()
   }
   handleModalTwoOpen = () => {
-    this.setState({
-      open: false,
-      openTwo: true
-    })
+    this.props.modalTwoOpen()
   }
   handleModalTwoClose = () => {
-    this.setState({
-      openTwo: false
-    })
+    this.props.modalTwoClose()
   }
   async login() {
-
     let user = {
       email: this.state.email,
 
@@ -89,7 +77,6 @@ class Auth extends Component {
     try {
       let res = await axios.post('/auth/login', user)
       this.props.updateUser(res.data)
-      console.log(4545454, res.data)
       this.handleModalOneClose()
       alert('logged in')
     } catch (err) {
@@ -125,7 +112,6 @@ class Auth extends Component {
 
 
   render() {
-    console.log(3333, this.props)
     const { classes } = this.props
 
     if (this.props.user_id !== 0) {
@@ -153,7 +139,7 @@ class Auth extends Component {
             Login
             </Button>
           <Modal
-            open={this.state.open}
+            open={this.props.open}
             onClose={() => this.handleModalOneClose()}
           >
             <main className={classes.main}>
@@ -198,7 +184,7 @@ class Auth extends Component {
           </Modal>
 
           <Modal
-            open={this.state.openTwo}
+            open={this.props.openTwo}
             onClose={() => this.handleModalTwoClose()}
           >
             <main className={classes.main}>
@@ -248,12 +234,23 @@ const mapStateToProps = (state) => {
     user_id: state.user_id,
     email: state.email,
     username: state.username,
-    image: state.image
+    image: state.image,
+    open: state.open,
+    openTwo: state.openTwo,
+    snack: state.snack
   }
+}
+
+const mapDispatchToProps = {
+  updateUser,
+  clearUser,
+  modalOneOpen,
+  modalOneClose,
+  modalTwoOpen,
+  modalTwoClose
 }
 
 
 
 
-
-export default connect(mapStateToProps, { updateUser, clearUser })(withStyles(styles)(Auth))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Auth))
