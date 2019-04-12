@@ -4,6 +4,8 @@ import Typography from '@material-ui/core/Typography'
 import zipcodes from 'zipcodes'
 import Button from '@material-ui/core/Button'
 import moment from 'moment'
+import {Link} from 'react-router-dom'
+import Slide from '@material-ui/core/Slide'
 
 import './EventList.css'
 
@@ -51,6 +53,8 @@ class EventList extends Component{
     
     render(){
         return(
+            <Slide direction='up' in={true} timeout={500} mountOnEnter unmountOnExit>
+
                 <Paper elevation={1} id='event-container'>
                     <div>
                         <Typography variant='h5'>{this.props.data.title}</Typography>
@@ -61,9 +65,12 @@ class EventList extends Component{
                         <Typography variant='body1'>Where: {this.state.cityOrOnline} {this.state.state}</Typography>
                     </div>
                     <div>
-                        <Button variant='contained' color='primary'>View Event</Button>
+                        <Button variant='contained' color='primary' component={Link} to={`/event/${this.props.data.event_id}`}>
+                            View Event
+                        </Button>
                     </div>
                 </Paper>
+            </Slide>
         )
     }
 }
