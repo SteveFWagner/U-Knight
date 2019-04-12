@@ -11,6 +11,7 @@ import Radio from '@material-ui/core/Radio'
 import zipcodes from 'zipcodes'
 
 import EventsContainer from './EventsContainer'
+import { Typography } from '@material-ui/core';
 
 class Search extends Component {
   constructor(props) {
@@ -28,21 +29,10 @@ class Search extends Component {
 
   componentDidMount() {
     this.getData();
-    // this.getLocation()
   }
 
-  // getLocation(){
-  //     let options = {
-  //         enableHighAccuracy:true
-  //     }
-
-  //     navigator.geolocation.getCurrentPosition(success =>{
-  //         console.log(success)
-  //     },err => console.log(err),options)
-  // }
-
   getData() {
-    axios.get("/events").then(res => {
+    axios.get("/events").then(res => {   
       this.setState({
         events: res.data,
         searchResults: res.data
@@ -51,7 +41,7 @@ class Search extends Component {
   }
 
   handleUserInput = async (prop, val) => {
-    if (prop === "searchString" || prop === "location" || prop === "distance") {
+    if (prop === "searchString" || prop === "location" || prop === "distance" || prop === "category") {
       await this.setState({
         [prop]: val
       });
@@ -64,8 +54,7 @@ class Search extends Component {
   };
 
   handleSearch = () => {
-    console.log("button pressed");
-    const { searchString, events, zipcode, location, distance } = this.state;
+    const { searchString, events, zipcode, location, distance, category } = this.state;
 
     let results = [];
     events.forEach(event => {
@@ -76,24 +65,25 @@ class Search extends Component {
           .includes(searchString.toLocaleUpperCase()) ||
         event.category.toUpperCase().includes(searchString.toLocaleUpperCase())
       ) {
-        if (location === "local") {
-          let miles = zipcodes.distance(zipcode, event.zipcode);
-          console.log(1111, event.zipcode, zipcode);
-          if(!distance){
-              if(event.zipcode !== 1000){
-                  results.push(event);
-              }
-          } else if (miles <= distance && miles !== null) {
+          if(category === event.category || category === ''){
+            if (location === "local") {
+            let miles = zipcodes.distance(zipcode, event.zipcode);
+            if(!distance){
+                if(event.zipcode !== 1000){
+                    results.push(event);
+                }
+            } else if (miles <= distance && miles !== null) {
+                results.push(event);
+            } else if (Number(zipcode) === event.zipcode) {
+                results.push(event);
+            } else {
+                return null;
+            }
+            } else if (location === "online") {
+            if (event.zipcode === 1000) results.push(event);
+            } else {
             results.push(event);
-          } else if (Number(zipcode) === event.zipcode) {
-            results.push(event);
-          } else {
-            return null;
-          }
-        } else if (location === "online") {
-          if (event.zipcode === 1000) results.push(event);
-        } else {
-          results.push(event);
+            }
         }
       }
     });
@@ -167,7 +157,7 @@ class Search extends Component {
 
     return (
       <div>
-        <h1>Search for an Event!</h1>
+        <Typography variant='h1'>Search for an Event!</Typography>
         <form>
           {/* Category input */}
           <FormControl>
@@ -198,6 +188,12 @@ class Search extends Component {
                 value="local"
                 control={<Radio color="primary" />}
                 label="Local"
+                labelPlacement="start"
+              />
+              <FormControlLabel
+                value=""
+                control={<Radio color="primary" />}
+                label="Any"
                 labelPlacement="start"
               />
             </RadioGroup>
