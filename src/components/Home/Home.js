@@ -41,8 +41,8 @@ class Home extends Component {
                         title='potw'
                         >
                     </iframe>
-                    <div id='events-container'>
                         <Typography variant='h4'>Upcoming Events:</Typography>
+                    <div id='events-container'>
                         <EventsContainer data={this.state.events}/>
                     </div>
                 </div>
