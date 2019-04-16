@@ -70,7 +70,7 @@ class S3Dropzone extends Component {
     console.log(11111,this.props)
     const { url, isUploading } = this.state;
     return (
-      <div className="App">
+      <div className="dropzonediv">
         
         <img src={ url } alt="" width="450px" />
 
