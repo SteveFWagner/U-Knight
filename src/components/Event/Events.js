@@ -39,6 +39,10 @@ class Events extends Component{
         console.log(this.state)
         const {description, title, address, zipcode, start_date, end_date, image} = this.state.data
         const {username, image:userImage} = this.state.host
+        let zipCheck = zipcode
+        if(zipCheck == 1000){
+            zipCheck = ''
+        }
         return(
             <div id='event-wrapper'>
                 <div id='event-1-wrapper'>
@@ -78,7 +82,7 @@ class Events extends Component{
                                     Where:
                                 </Typography>
                                 <Typography id='event-location' variant='body1'>
-                                    {address} {zipcode}
+                                    {address} {zipCheck}
                                 </Typography>
                             </div>
                             
