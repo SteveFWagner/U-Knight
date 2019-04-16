@@ -12,7 +12,7 @@ export default(
         <Route path='/HostEvent' component={HostEvent}/>
         <Route path='/Account/:id' component={Account}/>
         <Route path='/Search' component={Search}/>
-        <Route path='/Event' component={Events}/>
+        <Route path='/Event/:id' component={Events}/>
         <Route exact path='/' component={Home}/>
     </Switch>
 )
