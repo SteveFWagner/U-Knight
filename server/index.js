@@ -48,9 +48,10 @@ const ctrlUser = require('./controllers/authController')
     app.post('/auth/logout', ctrlUser.Logout);
 
 //Events
-    app.get('/events',eCt.getEvents)
+    app.get('/api/events',eCt.getEvents)
     app.post('/api/submitForm',eCt.submitForm)
-
+    app.get('/api/event/:id', eCt.getEvent)
+    app.get('/api/event/host/:id', eCt.getEventHost)
 
 //Messages
 

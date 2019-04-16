@@ -1,6 +1,7 @@
-#app {
+.app {
   background-image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80'); 
-  background-size:'100vw 100vh'; 
-  background-attachment:'fixed'; 
-  min-height:'100vh'
+  background-size:100vw 100vh; 
+  background-attachment:fixed; 
+  min-height: 100vh;
+  /* background-repeat: no-repeat */
 }

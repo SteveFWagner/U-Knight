@@ -62,16 +62,18 @@ values
 
 insert into users
 (username, password, email, image)
-values('yo momma', 'yo mamma password', 'yo momma email', null), 
-('yo daddy', 'yo daddy password', 'yo daddy email', null), 
+values
 ('isaac', 'firstSon', '123baby@mail.com', null), 
 ('icarus', 'im da best', 'paaaaulluuuuteeeenaisggop@idk.com', null), 
 ('ike', 'i fight for my friends', 'whatalamephrase@mail.com', null), 
 ('faux', 'i have a blaster', 'illkeeeeeelyou@mail.com', null), 
 ('theMan', 'idonthaveapassword', 'this.props@mail.com', null), 
-('jordan', 'jondandeeznuts', 'whoopiewhoop', null), 
 ('garret', 'ivegotredhair', 'ilikeFire@mail.com', null), 
 ('ivan', 'ivegotblondehair', 'ilikeWindMagic@mail.com', null), 
 ('mia', 'ivegotBluehair', 'iloveWaterandHealingMagic@mail.com', null), 
-('Felix', 'scrubdeeznuts', 'flake@mail.com', null), 
 ('Darius', 'imabigboy', 'ilikebigAxesandicannotLie@mail.com', null)
+
+insert into events
+(title, category, description, start_date, end_date, address, zipcode, image, user_id)
+values
+('Come Play Chess!', 'Board Games', 'Come play Chess and stuff! Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga minus hic ipsa animi? Nihil totam asperiores, et nesciunt nam labore explicabo facilis unde rerum, sunt cupiditate quaerat. Doloribus, inventore vitae.', '2019-04-18T17:30:00.000Z', '2019-04-18T17:30:00.000Z','123 Fake St.',85020, 'https://images.unsplash.com/photo-1549828714-b99b4ceaad50?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80', 18)
