@@ -1,0 +1,60 @@
+.the-everything-container {
+  display: flex;
+  width: 40%;
+  justify-content: space-between;
+  background-color: tan;
+}
+
+
+
+
+/* .form {
+display: flex;
+justify-content:space-between;
+padding: 25px;
+background-color: tan;
+width: 50%;
+}
+
+.inputForm {
+  opacity: .8;
+  width: 6600px;
+}
+.dropzoneForm {
+height: fit-content;
+
+}
+.categoryselect {
+  width: 140px;
+}
+
+.inputForm {
+  width: fit-content;
+}
+
+.radio-button {
+  width: 200px;
+  margin: 25px;
+}
+
+.where {
+
+  flex-wrap: wrap;
+  padding: 0 50px 50px 10px;
+
+}
+.descrip {
+  padding: 0 50px 50px 10px;
+  width: 350px;
+
+}
+.title {
+  width: 350px;
+}
+.address{
+  width: 350px;
+}
+
+.dropzone {
+  
+} */
