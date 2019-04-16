@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import './eventform.css'
+import { withRouter } from 'react-router-dom'
 
 // ! Radio Button
 import Radio from '@material-ui/core/Radio';
@@ -44,6 +45,7 @@ class EventForm extends Component {
             multiline: 'Controlled',
             start_date: new Date(),
             end_date: new Date(),
+            eventId: 0
         }
     }
 
@@ -80,11 +82,15 @@ class EventForm extends Component {
         })
     }
 
-    submitForm = () => {
-        const { title, category, description, address, start_date, end_date, zipcode, dropzone } = this.state
+    submitForm = (e) => {
+        e.preventDefault()
+        const { title, category, description, address, start_date, end_date, zipcode, dropzone, eventId } = this.state
 
         if (this.state.location === 'local') {
-            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone })
+            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone }).then(resp => {
+                let eventId = resp.data[ 0 ].event_id
+                this.props.history.push(`/event/${eventId}`)
+            })
 
         } else if (this.state.location === 'online') {
             let obj = {
@@ -92,9 +98,11 @@ class EventForm extends Component {
                 address: 'online'
             }
             const { address, zipcode } = obj
-            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone })
+            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone }).then(resp => {
+                let eventId = resp.data[ 0 ].event_id
+                this.props.history.push(`/event/${eventId}`)
+            })
         }
-        // e.preventDefault()
     }
 
 
@@ -106,33 +114,34 @@ class EventForm extends Component {
         console.log(222222, this.state)
         return (
             <div className='the-everything-container'>
-                <form className='form'> 
+                <form className='form'>
                     <div className='header'>
                         <Typography variant='h3'>Create An Epic Event !!</Typography>
                     </div>
                     <div className='section1'>
-                    <FormControl>
-                        <InputLabel>Category</InputLabel>
-                        <Select
-                            className='categoryselect'
-                            value={ this.state.category }
-                            onChange={ (e) => this.handleAllFormChanges('category', e.target.value) }
-                        >
-                            { mappedCategories }
-                        </Select>
+                        <div className='categoryselect'>
+                            <InputLabel>Category</InputLabel>
+                            <Select
+
+                                value={ this.state.category }
+                                onChange={ (e) => this.handleAllFormChanges('category', e.target.value) }
+                            >
+                                { mappedCategories }
+                            </Select>
+                        </div>
 
                         <TextField
                             className='title'
                             id='standard-title'
-                            label='Title'
+                            label='Your epic event title'
                             value={ this.state.title }
                             onChange={ e => this.handleAllFormChanges('title', e.target.value) }
                             margin='normal'
                         />
-                    </FormControl>
+
                     </div>
 
-<div className='radio-btns'>
+
 
                     <fieldset className='section2'>
                         <FormLabel component='legend'>Will your event be</FormLabel>
@@ -160,7 +169,6 @@ class EventForm extends Component {
                             />
                         </RadioGroup>
                     </fieldset>
-                    </div>
 
 
 
@@ -187,50 +195,56 @@ class EventForm extends Component {
                     </div>
 
                     <div className='section4'>
-                        <FormControl>
-                            <TextField
-                                className='address'
-                                id='standard-address'
-                                label='Address'
-                                disabled={ this.state.location === 'online' }
-                                value={ this.state.address }
-                                onChange={ e => this.handleAllFormChanges('address', e.target.value) }
-                                margin='normal'
+                        <div className='addressinput'>
+                            <FormControl>
+                                <TextField
+                                    className='address'
+                                    id='standard-address'
+                                    label='Address'
+                                    disabled={ this.state.location === 'online' }
+                                    value={ this.state.address }
+                                    onChange={ e => this.handleAllFormChanges('address', e.target.value) }
+                                    margin='normal'
 
-                            />
-
-
-                            <TextField
-                                id='standard-title'
-                                label='City'
-                                disabled={ this.state.location === 'online' }
-                                value={ this.state.city }
-                                onChange={ e => this.handleAllFormChanges('city', e.target.value) }
-                                margin='normal'
+                                />
 
 
-                            />
-                            <TextField
-                                id='standard-title'
-                                label='State'
-                                disabled={ this.state.location === 'online' }
-                                value={ this.state.state }
-                                onChange={ e => this.handleAllFormChanges('state', e.target.value) }
-                                margin='normal'
+                                <TextField
+                                    id='standard-title'
+                                    label='State'
+                                    disabled={ this.state.location === 'online' }
+                                    value={ this.state.state }
+                                    onChange={ e => this.handleAllFormChanges('state', e.target.value) }
+                                    margin='normal'
 
 
-                            />
-                            <TextField
-                                className='zipcodeInput'
-                                id='standard-title'
-                                label='Zipcode'
-                                disabled={ this.state.location === 'online' }
-                                value={ this.state.zipcode }
-                                onChange={ e => this.handleAllFormChanges('zipcode', e.target.value) }
-                                margin='normal'
+                                />
+                            </FormControl>
+                        </div>
+                        <div className='addressinput'>
+                            <FormControl>
+                                <TextField
+                                    id='standard-title'
+                                    label='City'
+                                    disabled={ this.state.location === 'online' }
+                                    value={ this.state.city }
+                                    onChange={ e => this.handleAllFormChanges('city', e.target.value) }
+                                    margin='normal'
 
-                            />
-                        </FormControl>
+
+                                />
+                                <TextField
+                                    className='zipcodeInput'
+                                    id='standard-title'
+                                    label='Zipcode'
+                                    disabled={ this.state.location === 'online' }
+                                    value={ this.state.zipcode }
+                                    onChange={ e => this.handleAllFormChanges('zipcode', e.target.value) }
+                                    margin='normal'
+
+                                />
+                            </FormControl>
+                        </div>
                     </div>
                     <div className='section5'>
 
@@ -249,19 +263,20 @@ class EventForm extends Component {
                         </fieldset>
                     </div>
                     <Button
-                        className='formButton'
+                    onClick={this.submitForm}
+                        className='formbutton'
                         variant='contained'
-                        type='button' onClick={ () => this.submitForm() }
+                        type='button'
                         color='primary'
                     >button</Button>
 
 
 
-                    <div className='dropzone'>
-                        <S3Dropzone handleDropzone={ this.handleDropzone } />
-                    </div>
 
                 </form>
+                <div className='dropzone'>
+                    <S3Dropzone handleDropzone={ this.handleDropzone } />
+                </div>
             </div>
 
 
@@ -269,4 +284,4 @@ class EventForm extends Component {
     }
 }
 
-export default EventForm
+export default withRouter(EventForm)
