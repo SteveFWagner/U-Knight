@@ -8,7 +8,7 @@ const pg = require('pg')
 const pgSession = require('connect-pg-simple')(session)
 
 
-const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env
+const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET, S3_BUCKET, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY  } = process.env
 
 const app = express();
 
@@ -55,4 +55,6 @@ const ctrlUser = require('./controllers/authController')
 
 //Messages
 
+// Dropzone
 
+app.get('/api/signs3', eCt.s3Upload)
