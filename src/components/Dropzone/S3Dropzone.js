@@ -71,15 +71,14 @@ class S3Dropzone extends Component {
     const { url, isUploading } = this.state;
     return (
       <div className="App">
-        <h1>Upload</h1>
-        <h1>{ url }</h1>
+        
         <img src={ url } alt="" width="450px" />
 
         <Dropzone
         style={{
           position: 'relative',
-          width: 200,
-          height: 200,
+          width: 100,
+          height: 100,
           borderWidth: 7,
           marginTop: 100,
           borderColor: 'rgb(102, 102, 102)',
@@ -97,7 +96,7 @@ class S3Dropzone extends Component {
         >
 
           { () => (
-            isUploading ? <GridLoader /> : <p>Drop File or Click Here</p>
+            isUploading ? <GridLoader /> : <p>Click me</p>
           ) }
 
 

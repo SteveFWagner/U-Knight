@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-// import './form.css'
+import './eventform.css'
 
 // ! Radio Button
 import Radio from '@material-ui/core/Radio';
@@ -14,7 +14,6 @@ import Select from '@material-ui/core/Select'
 // ! Text Field 
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import InputBase from '@material-ui/core/InputBase'
 
 // ! Date Picker
 import DatePicker from "react-datepicker";
@@ -22,6 +21,11 @@ import "react-datepicker/dist/react-datepicker.css";
 
 // ! Dropzone
 import S3Dropzone from '../../Dropzone/S3Dropzone'
+
+// ! Paper
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button'
 
 
 class EventForm extends Component {
@@ -32,6 +36,8 @@ class EventForm extends Component {
             category: '',
             description: '',
             address: '',
+            city: '',
+            state: '',
             date: 0,
             dropzone: '',
             zipcode: '',
@@ -70,7 +76,7 @@ class EventForm extends Component {
 
     handleDropzone = (value) => {
         this.setState({
-            dropzone:value
+            dropzone: value
         })
     }
 
@@ -86,7 +92,7 @@ class EventForm extends Component {
                 address: 'online'
             }
             const { address, zipcode } = obj
-            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone})
+            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone })
         }
         // e.preventDefault()
     }
@@ -97,42 +103,47 @@ class EventForm extends Component {
         const mappedCategories = categories.map((cat, i) => {
             return <MenuItem value={ cat } key={ i }>{ cat }</MenuItem>
         })
-        console.log(222222,this.state)
+        console.log(222222, this.state)
         return (
-
-            <form >
-                <fieldset>
-
-        <S3Dropzone handleDropzone={this.handleDropzone}/>
-            
+            <div className='the-everything-container'>
+                <form className='form'> 
+                    <div className='header'>
+                        <Typography variant='h3'>Create An Epic Event !!</Typography>
+                    </div>
+                    <div className='section1'>
                     <FormControl>
-
                         <InputLabel>Category</InputLabel>
                         <Select
+                            className='categoryselect'
                             value={ this.state.category }
                             onChange={ (e) => this.handleAllFormChanges('category', e.target.value) }
                         >
                             { mappedCategories }
                         </Select>
-                        </FormControl>
 
                         <TextField
-                        id='standard-title'
-                        label='Title'
-                        value={ this.state.title }
-                        onChange={ e => this.handleAllFormChanges('title', e.target.value) }
-                        margin='normal'
-                    />
-                        <br />
+                            className='title'
+                            id='standard-title'
+                            label='Title'
+                            value={ this.state.title }
+                            onChange={ e => this.handleAllFormChanges('title', e.target.value) }
+                            margin='normal'
+                        />
+                    </FormControl>
+                    </div>
 
+<div className='radio-btns'>
+
+                    <fieldset className='section2'>
                         <FormLabel component='legend'>Will your event be</FormLabel>
                         <RadioGroup
+
                             aria-label="position"
                             name="position"
                             value={ this.state.location }
                             onChange={ e => this.handleAllFormChanges('location', e.target.value) }
-                            row={true}
-                            checked={true}
+                            row={ true }
+                            checked={ true }
                         >
                             <FormControlLabel
                                 value='online'
@@ -148,65 +159,110 @@ class EventForm extends Component {
                                 labelPlacement="start"
                             />
                         </RadioGroup>
-                        
-
-                    <br />
-
-                    <DatePicker
-                        selected={ this.state.start_date }
-                        selectsStart
-                        startDate={ this.state.start_date }
-                        onChange={ this.handleDateStartChange }
-                        showTimeSelect={ true }
-                        shouldCloseOnSelect={ true }
-                        dateFormat={ 'MMMM d, yyyy h:mm aa' }
-                    />
-
-                    <DatePicker
-                        selected={ this.state.end_date }
-                        selectsEnd
-                        endDate={ this.state.end_date }
-                        onChange={ this.handleDateEndChange }
-                        showTimeSelect={ true }
-                        shouldCloseOnSelect={ true }
-                        dateFormat={ 'MMMM d, yyyy h:mm aa' }
-                    />
-                               
-                    <br />
-
-                    <TextField
-                        id='standard-address'
-                        label='Address'
-                        disabled={ this.state.location === 'online' }
-                        value={ this.state.address }
-                        onChange={ e => this.handleAllFormChanges('address', e.target.value) }
-                        margin='normal'
-                    />
-                    <TextField
-                        id='standard-title'
-                        label='Zipcode'
-                        disabled={ this.state.location === 'online' }
-                        value={ this.state.zipcode }
-                        onChange={ e => this.handleAllFormChanges('zipcode', e.target.value) }
-                        margin='normal'
-                    />
-<InputBase>
-                    <TextField
-                        fullWidth
-                        id="standard-multiline-flexible"
-                        label="Description"
-                        multiline
-                        rowsMax="11"
-                        value={ this.state.description }
-                        onChange={ e => this.handleAllFormChanges('description', e.target.value) }
-                        margin="normal"
-                    />
-                    </InputBase>
+                    </fieldset>
+                    </div>
 
 
-                </fieldset>
-                <button type='button' onClick={ () => this.submitForm() }>button</button>
-            </form>
+
+                    <div className='section3'>
+                        <DatePicker
+                            selected={ this.state.start_date }
+                            selectsStart
+                            startDate={ this.state.start_date }
+                            onChange={ this.handleDateStartChange }
+                            showTimeSelect={ true }
+                            shouldCloseOnSelect={ true }
+                            dateFormat={ 'MMMM d, yyyy h:mm aa' }
+                        />
+
+                        <DatePicker
+                            selected={ this.state.end_date }
+                            selectsEnd
+                            endDate={ this.state.end_date }
+                            onChange={ this.handleDateEndChange }
+                            showTimeSelect={ true }
+                            shouldCloseOnSelect={ true }
+                            dateFormat={ 'MMMM d, yyyy h:mm aa' }
+                        />
+                    </div>
+
+                    <div className='section4'>
+                        <FormControl>
+                            <TextField
+                                className='address'
+                                id='standard-address'
+                                label='Address'
+                                disabled={ this.state.location === 'online' }
+                                value={ this.state.address }
+                                onChange={ e => this.handleAllFormChanges('address', e.target.value) }
+                                margin='normal'
+
+                            />
+
+
+                            <TextField
+                                id='standard-title'
+                                label='City'
+                                disabled={ this.state.location === 'online' }
+                                value={ this.state.city }
+                                onChange={ e => this.handleAllFormChanges('city', e.target.value) }
+                                margin='normal'
+
+
+                            />
+                            <TextField
+                                id='standard-title'
+                                label='State'
+                                disabled={ this.state.location === 'online' }
+                                value={ this.state.state }
+                                onChange={ e => this.handleAllFormChanges('state', e.target.value) }
+                                margin='normal'
+
+
+                            />
+                            <TextField
+                                className='zipcodeInput'
+                                id='standard-title'
+                                label='Zipcode'
+                                disabled={ this.state.location === 'online' }
+                                value={ this.state.zipcode }
+                                onChange={ e => this.handleAllFormChanges('zipcode', e.target.value) }
+                                margin='normal'
+
+                            />
+                        </FormControl>
+                    </div>
+                    <div className='section5'>
+
+                        <fieldset>
+                            <TextField
+                                fullWidth={ true }
+                                id="standard-multiline-flexible"
+                                label="Description"
+                                multiline
+                                rowsMax="11"
+                                value={ this.state.description }
+                                onChange={ e => this.handleAllFormChanges('description', e.target.value) }
+                                margin="normal"
+                            />
+
+                        </fieldset>
+                    </div>
+                    <Button
+                        className='formButton'
+                        variant='contained'
+                        type='button' onClick={ () => this.submitForm() }
+                        color='primary'
+                    >button</Button>
+
+
+
+                    <div className='dropzone'>
+                        <S3Dropzone handleDropzone={ this.handleDropzone } />
+                    </div>
+
+                </form>
+            </div>
 
 
         )
