@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import Menu from "@material-ui/core/Menu";
+import Drawer from '@material-ui/core/Drawer';
 import MenuItem from "@material-ui/core/MenuItem";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -44,7 +44,7 @@ class Nav extends Component {
     this.setState({ menu: null });
   };
   route = val => {
-    if (this.props.user_id === 0 && val === "/account") {
+    if (this.props.user_id === 0 && val === `/account/${this.props.user_id}`) {
       this.props.snackOpen();
       this.props.modalOneOpen();
     } else {
@@ -70,7 +70,6 @@ class Nav extends Component {
               onClick={this.handleMenuClick}
               aria-owns={menu ? "simple-menu" : undefined}
               aria-haspopup="true"
-
             >
               <MenuIcon
                 style={{ width: 40, height: 40 }} />
@@ -79,9 +78,9 @@ class Nav extends Component {
               onClick={() => this.route("/")}
               style={{ marginLeft: 30, marginRight: 20 }}
             >
-            <img src={Logo} alt="ukinght" style={{width:100,height:'auto'}}/>
+              <img src={Logo} alt="ukinght" style={{ width: 100, height: 'auto' }} />
             </IconButton>
-            <Menu
+            <Drawer
               id="simple-menu"
               menu={menu}
               open={menu}
@@ -97,16 +96,16 @@ class Nav extends Component {
                   <MenuItem onClick={() => this.route("/hostevent")}>
                     Host an Event
                   </MenuItem>
-                  <MenuItem onClick={() => this.route("/account")}>
+                  <MenuItem onClick={() => this.route(`/account/${this.props.user_id}`)}>
                     Account
                   </MenuItem>
                 </div>
               </ClickAwayListener>
-            </Menu>
+            </Drawer>
             <Typography variant="h6" color="inherit" className={classes.grow}>
               U-KNIGHT
             </Typography>
-            <Button onClick={() => this.route("/account")}>
+            <Button onClick={() => this.route(`/account/${this.props.user_id}`)}>
               <CardMedia
                 className={classes.media}
                 image="http://urly.fi/1cw4"
