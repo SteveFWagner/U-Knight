@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography'
 import EventsContainer from '../Search/EventsContainer'
 import axios from 'axios'
+import moment from 'moment'
 import './Home.css'
 
 class Home extends Component {
@@ -16,13 +17,34 @@ class Home extends Component {
         this.getData()
     }
 
-    getData() {
-        axios.get("/events").then(res => {   
-          this.setState({
-            events: res.data,
-            searchResults: res.data
-          });
-        });
+    getData = async() => {
+        const res = await axios.get('/api/events')
+        const filteredData = await res.data.filter(event => {
+            const eventStart = moment(event.start_date)
+            const timeNow = moment()
+            if(timeNow.diff(eventStart,'days') <= 0 ){
+                return true
+            }else {
+                return false
+            }
+            
+        })
+        // console.log({filteredData})
+        let sortedData = await filteredData.sort((a,b)=>{
+            let timeA = moment(a.start_date)
+            let timeB = moment(b.start_date)
+            if(timeA>timeB){
+                return -1
+            }else if(timeA<timeB){
+                return 1
+            }else {
+                return 0
+            }
+        })
+        // console.log({sortedData})
+        this.setState({
+            events: sortedData
+        })
       }
 
 

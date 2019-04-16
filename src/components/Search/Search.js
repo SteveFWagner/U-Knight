@@ -32,7 +32,7 @@ class Search extends Component {
   }
 
   getData() {
-    axios.get("/events").then(res => {   
+    axios.get("/api/events").then(res => {   
       this.setState({
         events: res.data,
         searchResults: res.data
