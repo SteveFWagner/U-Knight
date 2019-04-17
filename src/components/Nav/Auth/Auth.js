@@ -139,7 +139,7 @@ class Auth extends Component {
             Login
             </Button>
           <Modal
-            open={this.props.open}
+            open={this.props.open || false}
             onClose={() => this.handleModalOneClose()}
           >
             <main className={classes.main}>
@@ -187,7 +187,7 @@ class Auth extends Component {
           </Modal>
 
           <Modal
-            open={this.props.openTwo}
+            open={this.props.openTwo || false}
             onClose={() => this.handleModalTwoClose()}
           >
             <main className={classes.main}>
