@@ -48,19 +48,19 @@ class EventForm extends Component {
             start_date: new Date(),
             end_date: new Date(),
             eventId: 0,
-            user_id: 18
+            user_id: 0
         }
     }
 
 
-    componentDidMount(){
-        if (this.props.user_id === 0 ) {
+    componentDidMount() {
+        if (this.props.user_id === 0) {
             this.props.snackOpen();
             this.props.modalOneOpen();
             this.props.history.push('/');
         }
     }
-    
+
 
 
     handleAllFormChanges = (props, val) => {
@@ -95,6 +95,7 @@ class EventForm extends Component {
             dropzone: value
         })
     }
+
 
     submitForm = (e) => {
         e.preventDefault()
@@ -187,6 +188,7 @@ class EventForm extends Component {
 
 
                     <div className='section3'>
+                        <h5>Start Time</h5>
                         <DatePicker
                             selected={ this.state.start_date }
                             selectsStart
@@ -195,8 +197,9 @@ class EventForm extends Component {
                             showTimeSelect={ true }
                             shouldCloseOnSelect={ true }
                             dateFormat={ 'MMMM d, yyyy h:mm aa' }
+                            label='test'
                         />
-
+                        <h5>End Time</h5>
                         <DatePicker
                             selected={ this.state.end_date }
                             selectsEnd
@@ -289,7 +292,10 @@ class EventForm extends Component {
 
                 </form>
                 <div className='dropzone'>
-                    <S3Dropzone handleDropzone={ this.handleDropzone } />
+                    <S3Dropzone handleDropzone={ this.handleDropzone }
+                    image_url_placeholder={'http://via.placeholder.com/450x450'}
+                    />
+                    
                 </div>
             </div>
 
@@ -311,7 +317,7 @@ const mapDispatchToProps = {
     modalOneOpen,
     snackOpen,
     snackClose
-  }
+}
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EventForm))
