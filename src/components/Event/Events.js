@@ -7,6 +7,8 @@ import moment from 'moment'
 import {connect} from 'react-redux'
 import {snackOpen, snackClose, modalOneOpen} from '../../ducks/reducer'
 import Snackbar from '@material-ui/core/Snackbar'
+import Modal from '@material-ui/core/Modal'
+import AttendingModal from './AttendingModal'
 
 
 class Events extends Component{
@@ -16,7 +18,9 @@ class Events extends Component{
             data:[],
             host:[],
             snackBar:false,
-            snackBarMessage:''
+            snackBarMessage:'',
+            modal:false,
+            userCount:0
         }
     }
 
@@ -34,6 +38,7 @@ class Events extends Component{
             this.setState({
                 host:hostData.data[0]
             })
+            this.attendingUserCount()
         } catch (error) {
             console.log(error)
         }
@@ -65,6 +70,27 @@ class Events extends Component{
             .catch(err => console.log(err))
         }
     }
+
+    handleRedirect = async (value) => {
+        await this.setState({
+            modal:false
+        })
+        this.props.history.push(`${value}`)
+    }
+
+    attendingUserCount = () => {
+        axios.get(`/api/event/attending/${this.props.match.params.id}`)
+        .then(res => {
+            let count = 0 
+            res.data.forEach(user => {
+                count = count +1
+            })
+            console.log(count)
+            this.setState({
+                userCount:count
+            })
+        })
+    }
     
 
     render(){
@@ -92,7 +118,13 @@ class Events extends Component{
                                 {username}
                             </Typography>
                         </div>
-                        <Button id='event-attending-button' variant='contained' color='primary'>attending (5)</Button>
+                        <Button 
+                            id='event-attending-button' 
+                            variant='contained' 
+                            color='primary'
+                            onClick={()=>this.handleUserInput('modal',true)}>
+                            attending ({this.state.userCount})
+                        </Button>
                     </div>
                     <div id='event-description-wrapper'>
                         <Typography variant='h4' color='secondary'>
@@ -166,6 +198,9 @@ class Events extends Component{
                         </Button>
                     </div>
                 </div>
+                <Modal id='modal' open={this.state.modal} onClose={()=>this.handleUserInput('modal',false)}>
+                    <AttendingModal eventId={this.props.match.params.id} redirect={this.handleRedirect}/>
+                </Modal>
                 <Snackbar
                     anchorOrigin={{ vertical: "top", horizontal: "right" }}
                     autoHideDuration={3000}
