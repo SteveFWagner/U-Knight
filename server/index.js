@@ -53,20 +53,22 @@ const ctrlUser = require('./controllers/authController')
 
 //ENDPOINTS
 //Auth
-app.post('/auth/register', ctrlUser.register);
-app.post('/auth/login', ctrlUser.login);
-app.get('/auth/checkuser', ctrlUser.getUser);
-app.post('/auth/logout', ctrlUser.Logout);
-app.get('/api/account/:id', ctrlUser.account);
-app.get('/api/hosted/:id', ctrlUser.hosted);
-app.get('/api/attended/:id', ctrlUser.attended);
-// app.put('/api/user/:id', ctrlUser.updateProfile);
+    app.post('/auth/register', ctrlUser.register);
+    app.post('/auth/login', ctrlUser.login);
+    app.get('/auth/checkuser', ctrlUser.getUser);
+    app.post('/auth/logout', ctrlUser.Logout);
+    app.get('/api/account/:id', ctrlUser.account);
+    app.get('/api/hosted/:id', ctrlUser.hosted);
+    app.get('/api/attended/:id', ctrlUser.attended);
+    app.put('/api/user/:id', ctrlUser.updateProfile);
 
 //Events
-app.get('/api/events', eCt.getEvents)
-app.post('/api/submitForm', eCt.submitForm)
-app.get('/api/event/:id', eCt.getEvent)
-app.get('/api/event/host/:id', eCt.getEventHost)
+    app.get('/api/events',eCt.getEvents)
+    app.post('/api/submitForm',eCt.submitForm)
+    app.get('/api/event/:id', eCt.getEvent)
+    app.get('/api/event/host/:id', eCt.getEventHost)
+    app.post('/api/event/signup', eCt.signup)
+    app.get('/api/event/attending/:id', eCt.attendingUsers)
 
 //Messages
 

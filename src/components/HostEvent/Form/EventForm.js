@@ -65,7 +65,7 @@ class EventForm extends Component {
 
     handleAllFormChanges = (props, val) => {
         this.setState({
-            [ props ]: val
+            [props]: val
         })
     }
 
@@ -122,9 +122,9 @@ class EventForm extends Component {
 
 
     render() {
-        const categories = [ 'PC', 'VR', 'PlayStation', 'Xbox', 'Switch', 'LARP', 'Board Games', 'Retro' ]
+        const categories = ['PC', 'VR', 'PlayStation', 'Xbox', 'Switch', 'LARP', 'Board Games', 'Retro']
         const mappedCategories = categories.map((cat, i) => {
-            return <MenuItem value={ cat } key={ i }>{ cat }</MenuItem>
+            return <MenuItem value={cat} key={i}>{cat}</MenuItem>
         })
         console.log(222222, this.state)
         return (
@@ -138,10 +138,10 @@ class EventForm extends Component {
                             <InputLabel>Category</InputLabel>
                             <Select
 
-                                value={ this.state.category }
-                                onChange={ (e) => this.handleAllFormChanges('category', e.target.value) }
+                                value={this.state.category}
+                                onChange={(e) => this.handleAllFormChanges('category', e.target.value)}
                             >
-                                { mappedCategories }
+                                {mappedCategories}
                             </Select>
                         </div>
 
@@ -149,8 +149,8 @@ class EventForm extends Component {
                             className='title'
                             id='standard-title'
                             label='Your epic event title'
-                            value={ this.state.title }
-                            onChange={ e => this.handleAllFormChanges('title', e.target.value) }
+                            value={this.state.title}
+                            onChange={e => this.handleAllFormChanges('title', e.target.value)}
                             margin='normal'
                         />
 
@@ -164,21 +164,21 @@ class EventForm extends Component {
 
                             aria-label="position"
                             name="position"
-                            value={ this.state.location }
-                            onChange={ e => this.handleAllFormChanges('location', e.target.value) }
-                            row={ true }
-                            checked={ true }
+                            value={this.state.location}
+                            onChange={e => this.handleAllFormChanges('location', e.target.value)}
+                            row={true}
+                            checked={true}
                         >
                             <FormControlLabel
                                 value='online'
-                                control={ <Radio color="primary" /> }
+                                control={<Radio color="primary" />}
                                 label="Online"
                                 labelPlacement="start"
-                                onClick={ this.handleOnlineRadio }
+                                onClick={this.handleOnlineRadio}
                             />
                             <FormControlLabel
                                 value='local'
-                                control={ <Radio color="secondary" /> }
+                                control={<Radio color="secondary" />}
                                 label="Local"
                                 labelPlacement="start"
                             />
@@ -190,7 +190,7 @@ class EventForm extends Component {
                     <div className='section3'>
                         <h5>Start Time</h5>
                         <DatePicker
-                            selected={ this.state.start_date }
+                            selected={this.state.start_date}
                             selectsStart
                             startDate={ this.state.start_date }
                             onChange={ this.handleDateStartChange }
@@ -200,13 +200,13 @@ class EventForm extends Component {
                         />
                         <h5>End Time</h5>
                         <DatePicker
-                            selected={ this.state.end_date }
+                            selected={this.state.end_date}
                             selectsEnd
-                            endDate={ this.state.end_date }
-                            onChange={ this.handleDateEndChange }
-                            showTimeSelect={ true }
-                            shouldCloseOnSelect={ true }
-                            dateFormat={ 'MMMM d, yyyy h:mm aa' }
+                            endDate={this.state.end_date}
+                            onChange={this.handleDateEndChange}
+                            showTimeSelect={true}
+                            shouldCloseOnSelect={true}
+                            dateFormat={'MMMM d, yyyy h:mm aa'}
                         />
                     </div>
 
@@ -217,9 +217,9 @@ class EventForm extends Component {
                                     className='address'
                                     id='standard-address'
                                     label='Address'
-                                    disabled={ this.state.location === 'online' }
-                                    value={ this.state.address }
-                                    onChange={ e => this.handleAllFormChanges('address', e.target.value) }
+                                    disabled={this.state.location === 'online'}
+                                    value={this.state.address}
+                                    onChange={e => this.handleAllFormChanges('address', e.target.value)}
                                     margin='normal'
 
                                 />
@@ -228,9 +228,9 @@ class EventForm extends Component {
                                 <TextField
                                     id='standard-title'
                                     label='State'
-                                    disabled={ this.state.location === 'online' }
-                                    value={ this.state.state }
-                                    onChange={ e => this.handleAllFormChanges('state', e.target.value) }
+                                    disabled={this.state.location === 'online'}
+                                    value={this.state.state}
+                                    onChange={e => this.handleAllFormChanges('state', e.target.value)}
                                     margin='normal'
 
 
@@ -242,9 +242,9 @@ class EventForm extends Component {
                                 <TextField
                                     id='standard-title'
                                     label='City'
-                                    disabled={ this.state.location === 'online' }
-                                    value={ this.state.city }
-                                    onChange={ e => this.handleAllFormChanges('city', e.target.value) }
+                                    disabled={this.state.location === 'online'}
+                                    value={this.state.city}
+                                    onChange={e => this.handleAllFormChanges('city', e.target.value)}
                                     margin='normal'
 
 
@@ -253,9 +253,9 @@ class EventForm extends Component {
                                     className='zipcodeInput'
                                     id='standard-title'
                                     label='Zipcode'
-                                    disabled={ this.state.location === 'online' }
-                                    value={ this.state.zipcode }
-                                    onChange={ e => this.handleAllFormChanges('zipcode', e.target.value) }
+                                    disabled={this.state.location === 'online'}
+                                    value={this.state.zipcode}
+                                    onChange={e => this.handleAllFormChanges('zipcode', e.target.value)}
                                     margin='normal'
 
                                 />
@@ -266,20 +266,20 @@ class EventForm extends Component {
 
                         <fieldset>
                             <TextField
-                                fullWidth={ true }
+                                fullWidth={true}
                                 id="standard-multiline-flexible"
                                 label="Description"
                                 multiline
                                 rowsMax="11"
-                                value={ this.state.description }
-                                onChange={ e => this.handleAllFormChanges('description', e.target.value) }
+                                value={this.state.description}
+                                onChange={e => this.handleAllFormChanges('description', e.target.value)}
                                 margin="normal"
                             />
 
                         </fieldset>
                     </div>
                     <Button
-                        onClick={ this.submitForm }
+                        onClick={this.submitForm}
                         className='formbutton'
                         variant='contained'
                         type='button'

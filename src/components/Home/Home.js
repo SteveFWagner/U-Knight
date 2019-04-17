@@ -53,8 +53,8 @@ class Home extends Component {
         return (
             <div>
                 <div id='header'>
-                    <Typography variant='h2'>U-KNIGHT</Typography>
-                    <Typography variant='h5'>- Gaming Events Online & Near You -</Typography>
+                    <Typography variant='h2' id='home-title'>U-KNIGHT</Typography>
+                    <Typography variant='h5' id='home-subtitle'>- Gaming Events Online & Near You -</Typography>
                 </div>
                 <div id='content-container'>
                     <iframe 
