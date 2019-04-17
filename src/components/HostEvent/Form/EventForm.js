@@ -197,7 +197,6 @@ class EventForm extends Component {
                             showTimeSelect={ true }
                             shouldCloseOnSelect={ true }
                             dateFormat={ 'MMMM d, yyyy h:mm aa' }
-                            label='test'
                         />
                         <h5>End Time</h5>
                         <DatePicker

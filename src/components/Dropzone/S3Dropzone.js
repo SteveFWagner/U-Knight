@@ -77,11 +77,10 @@ class S3Dropzone extends Component {
         <img src={ url } alt="" width="450px" />
 
         <Dropzone
-        formImagePlacehodler={'http://via.placeholder.com/450x450'}
         style={{
           position: 'relative',
           borderWidth: 7,
-          marginTop: 100,
+          marginTop: 25,
           borderColor: 'rgb(102, 102, 102)',
           borderStyle: 'dashed',
           borderRadius: 5,
