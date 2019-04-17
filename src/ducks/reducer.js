@@ -2,6 +2,7 @@ const initialState = {
     user_id: 0,
     email: '',
     username: '',
+    bio: '',
     image: '',
     open: false,
     openTwo: false,
@@ -51,6 +52,7 @@ export function snackClose(){
 }
 
 export function updateUser(user){
+    console.log(44445555,user)
     return{
         type: UPDATE_USER,
         payload: user
@@ -71,8 +73,8 @@ export default function reducer(state=initialState,action){
     const {type, payload} = action;
     switch(type){
         case UPDATE_USER:
-        const { user_id, username, email, image } = payload;
-        return{ ...state, user_id, email, username, image}
+        const { user_id, username, email, bio, image } = payload;
+        return{ ...state, user_id, username, email,  bio, image}
         case CLEAR_USER:
         return { ...state, user_id: 0, email: '', username: '', image: ''}
         //modals and snacks

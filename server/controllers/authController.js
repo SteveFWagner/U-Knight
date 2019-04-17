@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs')
 
 module.exports = {
     register: async (req, res) => {
-        const { email, password, username } = req.body;
+        const { email, password, username, image } = req.body;
         const { session } = req;
         const db = req.app.get('db');
         let takenEmail = await db.Auth.check_email({ email })
@@ -23,7 +23,7 @@ module.exports = {
         }
         let salt = bcrypt.genSaltSync();
         let hash = bcrypt.hashSync(password, salt);
-        let user = await db.Auth.register({ email, password: hash, username })
+        let user = await db.Auth.register({ email, password: hash, image, username })
         user = user[0]
         session.user = user
         res.status(200).send(session.user)
@@ -79,22 +79,25 @@ module.exports = {
         const { id } = req.params
         let attended = await db.Auth.events_attended({ id })
         res.status(200).send(attended)
-    }
-    // ,
-    // updateProfile: async ( req, res ) => {
-    //     const db = req.app.get('db')
-    //     const {user_id, username, bio, image} = req.body
+    },
+    updateProfile: async ( req, res ) => {
+        const db = req.app.get('db')
+        const {username, bio, image} = req.body
+        const { id } = req.params
 
-    //     let takenUsername = await db.Auth.check_username({ username })
+        let takenUsername = await db.Auth.check_username({ username })
 
-    //     takenUsername = takenUsername[0]
+        takenUsername = takenUsername[0]
         
-    //     if (takenUsername) {
-    //         return res.status(409).send('username is already in use')
-    //     }
-
-    //     let update = await db.Auth.update_user({user_id, username, bio, image})
-
-    //     res.status(200).send(update)
-    // }
+        
+        if (takenUsername) {
+            if(takenUsername.user_id === id){
+                let update = await db.Auth.update_user({id, username, bio, image})
+                return res.status(200).send(update)
+            }
+            return res.status(409).send('username is already in use')
+        }
+        let update = await db.Auth.update_user({id, username, bio, image})
+        res.status(200).send(update)
+    }
 }
