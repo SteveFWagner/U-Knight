@@ -74,30 +74,30 @@ module.exports = {
         let hosted = await db.Auth.hosted({ id })
         res.status(200).send(hosted)
     },
-    attended: async ( req, res ) => {
+    attended: async (req, res) => {
         const db = req.app.get('db')
         const { id } = req.params
         let attended = await db.Auth.events_attended({ id })
         res.status(200).send(attended)
     },
-    updateProfile: async ( req, res ) => {
+    updateProfile: async (req, res) => {
         const db = req.app.get('db')
-        const {username, bio, image} = req.body
+        const { username, bio, image } = req.body
         const { id } = req.params
 
         let takenUsername = await db.Auth.check_username({ username })
 
         takenUsername = takenUsername[0]
-        
-        
+
+
         if (takenUsername) {
-            if(takenUsername.user_id === id){
-                let update = await db.Auth.update_user({id, username, bio, image})
+            if (takenUsername.user_id === Number(id)) {
+                let update = await db.Auth.update_user({ id, username, bio, image })
                 return res.status(200).send(update)
             }
             return res.status(409).send('username is already in use')
         }
-        let update = await db.Auth.update_user({id, username, bio, image})
+        let update = await db.Auth.update_user({ id, username, bio, image })
         res.status(200).send(update)
     }
 }
