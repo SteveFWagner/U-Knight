@@ -56,6 +56,8 @@ const ctrlUser = require('./controllers/authController')
     app.post('/api/submitForm',eCt.submitForm)
     app.get('/api/event/:id', eCt.getEvent)
     app.get('/api/event/host/:id', eCt.getEventHost)
+    app.post('/api/event/signup', eCt.signup)
+    app.get('/api/event/attending/:id', eCt.attendingUsers)
 
 //Messages
 

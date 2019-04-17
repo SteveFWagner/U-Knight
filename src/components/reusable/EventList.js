@@ -58,7 +58,7 @@ class EventList extends Component{
                 <Paper elevation={1} id='event-container'>
                     <div>
                         <Typography variant='h5'>{this.props.data.title}</Typography>
-                        <Typography variant='body2'>{this.props.data.category}</Typography>
+                        <Typography variant='body1'>{this.props.data.category}</Typography>
                     </div>
                     <div>
                         <Typography variant='body1'>When: {this.state.startDate}</Typography>

@@ -12,6 +12,7 @@ import zipcodes from 'zipcodes'
 
 import EventsContainer from './EventsContainer'
 import { Typography } from '@material-ui/core';
+import './Search.css'
 
 class Search extends Component {
   constructor(props) {
@@ -157,7 +158,7 @@ class Search extends Component {
 
     return (
       <div>
-        <Typography variant='h1'>Search for an Event!</Typography>
+        <Typography variant='h1' id='search-title'>Search for an Event!</Typography>
         <form>
           {/* Category input */}
           <FormControl>

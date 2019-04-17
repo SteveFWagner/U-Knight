@@ -3,6 +3,12 @@ import axios from 'axios'
 import './Events.css'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import moment from 'moment'
+import {connect} from 'react-redux'
+import {snackOpen, snackClose, modalOneOpen} from '../../ducks/reducer'
+import Snackbar from '@material-ui/core/Snackbar'
+import Modal from '@material-ui/core/Modal'
+import AttendingModal from './AttendingModal'
 
 
 class Events extends Component{
@@ -10,7 +16,11 @@ class Events extends Component{
         super(props)
         this.state={
             data:[],
-            host:[]
+            host:[],
+            snackBar:false,
+            snackBarMessage:'',
+            modal:false,
+            userCount:0
         }
     }
 
@@ -28,10 +38,58 @@ class Events extends Component{
             this.setState({
                 host:hostData.data[0]
             })
+            this.attendingUserCount()
         } catch (error) {
             console.log(error)
         }
         
+    }
+
+    handleUserInput = (prop,val) => {
+        this.setState({
+            [prop]:val
+        })
+    }
+
+    handleSignUp = () =>{
+        if(this.props.user_id === 0){
+            this.props.snackOpen();
+            this.props.modalOneOpen();
+        }else{
+            console.log(this.props.user_id)
+            console.log(this.props.match.params.id)
+            const event_id = this.props.match.params.id
+            const {user_id} = this.props
+            axios.post('/api/event/signup', {event_id, user_id})
+            .then(res => {
+                this.setState({
+                    snackBarMessage:res.data,
+                    snackBar:true
+                })
+            })
+            .catch(err => console.log(err))
+        }
+    }
+
+    handleRedirect = async (value) => {
+        await this.setState({
+            modal:false
+        })
+        this.props.history.push(`${value}`)
+    }
+
+    attendingUserCount = () => {
+        axios.get(`/api/event/attending/${this.props.match.params.id}`)
+        .then(res => {
+            let count = 0 
+            res.data.forEach(user => {
+                count = count +1
+            })
+            console.log(count)
+            this.setState({
+                userCount:count
+            })
+        })
     }
     
 
@@ -39,6 +97,14 @@ class Events extends Component{
         console.log(this.state)
         const {description, title, address, zipcode, start_date, end_date, image} = this.state.data
         const {username, image:userImage} = this.state.host
+        let zipCheck = zipcode
+        let addressCheck = address
+        if(zipCheck == 1000){
+            zipCheck = ''
+            addressCheck = 'Online!'
+        }
+        let startDate = moment(start_date).format('MMMM Do YYYY, h:mm a')
+        let endDate = moment(end_date).format('MMMM Do YYYY, h:mm a')
         return(
             <div id='event-wrapper'>
                 <div id='event-1-wrapper'>
@@ -52,7 +118,13 @@ class Events extends Component{
                                 {username}
                             </Typography>
                         </div>
-                        <Button id='event-attending-button' variant='contained' color='primary'>attending (5)</Button>
+                        <Button 
+                            id='event-attending-button' 
+                            variant='contained' 
+                            color='primary'
+                            onClick={()=>this.handleUserInput('modal',true)}>
+                            attending ({this.state.userCount})
+                        </Button>
                     </div>
                     <div id='event-description-wrapper'>
                         <Typography variant='h4' color='secondary'>
@@ -67,10 +139,10 @@ class Events extends Component{
                                     When:
                                 </Typography>
                                 <Typography id='event-date' variant='body1'>
-                                    Start time: {start_date}
+                                    Start time: {startDate}
                                 </Typography>
                                 <Typography id='event-date' variant='body1'>
-                                    End time: {end_date}
+                                    End time: {endDate}
                                 </Typography>
                             </div>
                             <div id='event-location-container'>
@@ -78,7 +150,7 @@ class Events extends Component{
                                     Where:
                                 </Typography>
                                 <Typography id='event-location' variant='body1'>
-                                    {address} {zipcode}
+                                    {addressCheck} {zipCheck}
                                 </Typography>
                             </div>
                             
@@ -92,7 +164,8 @@ class Events extends Component{
                             className='event-signup-pay-button'
                             variant='contained'
                             color='secondary'
-                            style={{fontSize:'30px', margin:'10px'}}>
+                            style={{fontSize:'30px', margin:'10px'}}
+                            onClick={()=>this.handleSignUp()}>
                             Sign Up
                         </Button>
                         <Button 
@@ -102,14 +175,58 @@ class Events extends Component{
                             style={{fontSize:'30px', margin:'10px'}}>
                             Pay Now*
                         </Button>
-                        <Typography variant='body2'>
+                        <Typography variant='body1'>
                             *See event description for details on any required payments prior to event.
                         </Typography>
                     </div>
                 </div>
+                <div id='event-3-wrapper'>
+                    <div id='event-chat'>
+                        <Typography variant='body1' style={{color:'#00BF0C'}}>
+                            kyle@3:30pm - Hello!
+                        </Typography>
+                        <Typography variant='body1' style={{color:'#00BF0C'}}>
+                            kyle@3:31pm - :'(
+                        </Typography>
+                    </div>
+                    <div id='event-chat-input-wrapper'>
+                        <div id='event-chat-input'>
+
+                        </div>
+                        <Button variant='contained' color='secondary'>
+                            Send
+                        </Button>
+                    </div>
+                </div>
+                <Modal id='modal' open={this.state.modal} onClose={()=>this.handleUserInput('modal',false)}>
+                    <AttendingModal eventId={this.props.match.params.id} redirect={this.handleRedirect}/>
+                </Modal>
+                <Snackbar
+                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                    autoHideDuration={3000}
+                    open={this.state.snackBar}
+                    onClose={()=>this.handleUserInput('snackBar',false)}
+                    ContentProps={{
+                        "aria-describedby": "message-id"
+                    }}
+                    message={<span > {this.state.snackBarMessage} </span>}
+                />
             </div>
         )
     }
 }
 
-export default Events
+const mapStateToProps = state => {
+    return {
+      user_id: state.user_id,
+      snack: state.snack
+    };
+  };
+  
+  const mapDispatchToProps = {
+    modalOneOpen,
+    snackOpen,
+    snackClose
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Events)
