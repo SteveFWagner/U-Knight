@@ -10,9 +10,11 @@ class S3Dropzone extends Component {
     super(props);
     this.state = {
       isUploading: false,
-      url: 'http://via.placeholder.com/450x450',
+      url: this.props.image_url_placeholder,
     };
   }
+
+  // url: 'http://via.placeholder.com/450x450',
 
   getSignedRequest = ([ file ]) => {
     console.log('push change')
@@ -75,10 +77,9 @@ class S3Dropzone extends Component {
         <img src={ url } alt="" width="450px" />
 
         <Dropzone
+        formImagePlacehodler={'http://via.placeholder.com/450x450'}
         style={{
           position: 'relative',
-          width: 100,
-          height: 100,
           borderWidth: 7,
           marginTop: 100,
           borderColor: 'rgb(102, 102, 102)',
@@ -96,7 +97,7 @@ class S3Dropzone extends Component {
         >
 
           { () => (
-            isUploading ? <GridLoader /> : <p>Click me</p>
+            isUploading ? <GridLoader /> : <p>Drop Deez Nutz</p>
           ) }
 
 

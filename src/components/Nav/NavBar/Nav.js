@@ -10,7 +10,7 @@ import Drawer from '@material-ui/core/Drawer';
 import MenuItem from "@material-ui/core/MenuItem";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import CardMedia from "@material-ui/core/CardMedia";
-import { snackOpen, snackClose, modalOneOpen } from "../../../ducks/reducer";
+import { snackOpen, snackClose, modalOneOpen } from "../../../ducks/reducer"
 import { connect } from "react-redux";
 import Snackbar from "@material-ui/core/Snackbar";
 import Logo from '../../../media/Logo.svg';

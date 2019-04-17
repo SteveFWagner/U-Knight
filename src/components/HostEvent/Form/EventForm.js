@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import './eventform.css'
 import { withRouter } from 'react-router-dom'
+import { snackOpen, snackClose, modalOneOpen } from "../../../ducks/reducer"
+import { connect } from 'react-redux'
+
 
 // ! Radio Button
 import Radio from '@material-ui/core/Radio';
@@ -24,7 +27,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import S3Dropzone from '../../Dropzone/S3Dropzone'
 
 // ! Paper
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 
@@ -45,7 +47,17 @@ class EventForm extends Component {
             multiline: 'Controlled',
             start_date: new Date(),
             end_date: new Date(),
-            eventId: 0
+            eventId: 0,
+            user_id: 0
+        }
+    }
+
+
+    componentDidMount() {
+        if (this.props.user_id === 0) {
+            this.props.snackOpen();
+            this.props.modalOneOpen();
+            this.props.history.push('/');
         }
     }
 
@@ -61,7 +73,9 @@ class EventForm extends Component {
         console.log('hit')
         this.setState({
             address: '',
-            zipcode: ''
+            zipcode: '',
+            city: '',
+            state: '',
         })
     }
 
@@ -82,13 +96,14 @@ class EventForm extends Component {
         })
     }
 
+
     submitForm = (e) => {
         e.preventDefault()
-        const { title, category, description, address, start_date, end_date, zipcode, dropzone, eventId } = this.state
-
+        const { title, category, description, address, start_date, end_date, zipcode, dropzone } = this.state
+        const { user_id } = this.props
         if (this.state.location === 'local') {
-            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone }).then(resp => {
-                let eventId = resp.data[0].event_id
+            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone, user_id }).then(resp => {
+                let eventId = resp.data[ 0 ].event_id
                 this.props.history.push(`/event/${eventId}`)
             })
 
@@ -98,8 +113,8 @@ class EventForm extends Component {
                 address: 'online'
             }
             const { address, zipcode } = obj
-            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone }).then(resp => {
-                let eventId = resp.data[0].event_id
+            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone, user_id }).then(resp => {
+                let eventId = resp.data[ 0 ].event_id
                 this.props.history.push(`/event/${eventId}`)
             })
         }
@@ -173,16 +188,18 @@ class EventForm extends Component {
 
 
                     <div className='section3'>
+                        <h5>Start Time</h5>
                         <DatePicker
                             selected={this.state.start_date}
                             selectsStart
-                            startDate={this.state.start_date}
-                            onChange={this.handleDateStartChange}
-                            showTimeSelect={true}
-                            shouldCloseOnSelect={true}
-                            dateFormat={'MMMM d, yyyy h:mm aa'}
+                            startDate={ this.state.start_date }
+                            onChange={ this.handleDateStartChange }
+                            showTimeSelect={ true }
+                            shouldCloseOnSelect={ true }
+                            dateFormat={ 'MMMM d, yyyy h:mm aa' }
+                            label='test'
                         />
-
+                        <h5>End Time</h5>
                         <DatePicker
                             selected={this.state.end_date}
                             selectsEnd
@@ -275,7 +292,10 @@ class EventForm extends Component {
 
                 </form>
                 <div className='dropzone'>
-                    <S3Dropzone handleDropzone={this.handleDropzone} />
+                    <S3Dropzone handleDropzone={ this.handleDropzone }
+                    image_url_placeholder={'http://via.placeholder.com/450x450'}
+                    />
+                    
                 </div>
             </div>
 
@@ -284,4 +304,20 @@ class EventForm extends Component {
     }
 }
 
-export default withRouter(EventForm)
+
+const mapStateToProps = state => {
+    return {
+        user_id: state.user_id,
+        snack: state.snack
+    }
+}
+
+
+const mapDispatchToProps = {
+    modalOneOpen,
+    snackOpen,
+    snackClose
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EventForm))
