@@ -43,6 +43,7 @@
     max-width:100px;
     max-height:100px;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 #event-attending-button{
@@ -116,4 +117,46 @@
     height:100%;
     background:#D8D8D8;
     border-radius: 5px;
+}
+
+#attending-modal{
+    width:600px;
+    height:500px;
+    max-width: 80vw;
+    max-height: 70vh;
+    border-radius: 8px;
+    background:#212121;
+    padding:20px;
+}
+
+#modal{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#attending-mappedUsers{
+    height:80%;
+    overflow:auto;
+}
+
+#attending-user{
+    width:90%;
+    height:15%;
+    margin:5px;
+}
+
+#attending-user-paper{
+    height:100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor:pointer;
+}
+
+#attending-user-image{
+    height:80%;
+    width:10%;
+    object-fit:cover;
+    border-radius: 100%;
 }
