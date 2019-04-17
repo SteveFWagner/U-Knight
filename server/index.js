@@ -49,7 +49,7 @@ const ctrlUser = require('./controllers/authController')
     app.get('/api/account/:id', ctrlUser.account);
     app.get('/api/hosted/:id', ctrlUser.hosted);
     app.get('/api/attended/:id', ctrlUser.attended);
-    // app.put('/api/user/:id', ctrlUser.updateProfile);
+    app.put('/api/user/:id', ctrlUser.updateProfile);
 
 //Events
     app.get('/api/events',eCt.getEvents)

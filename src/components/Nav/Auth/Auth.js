@@ -70,12 +70,12 @@ class Auth extends Component {
   async login() {
     let user = {
       email: this.state.email,
-
       password: this.state.password,
 
     }
     try {
       let res = await axios.post('/auth/login', user)
+      console.log(888888, res.data)
       this.props.updateUser(res.data)
       this.handleModalOneClose()
       alert('logged in')
@@ -87,7 +87,8 @@ class Auth extends Component {
     let user = {
       email: this.state.email,
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
+      image: 'https://vectr.com/stevewagner/c3BocqDepf.png?width=320&height=320&select=c3BocqDepfpage0'
     }
     try {
       let res = await axios.post('/auth/register', user)
