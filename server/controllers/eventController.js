@@ -65,6 +65,30 @@ module.exports = {
 
                 return res.send(returnData)
             })
+        },
+        signup: (req,res) =>{
+            const db = req.app.get('db')
+            const {event_id, user_id} = req.body
+
+            db.Events.attending_users(event_id)
+            .then(attendingUsers => {
+                let existingUser = false
+                attendingUsers.forEach(user => {
+                    if(user.user_id === user_id){
+                        existingUser = true
+                    }
+                })
+                if(existingUser === true){
+                    return res.status(200).send('You have already signed up for this event!')
+                }else{
+                    db.Events.signup(event_id,user_id)
+                    .then(resp => {
+                        res.status(200).send('You are signed up!')
+                    }).catch(err => console.log(err))
+                }
+            })
+
+            
         }
 
     }
