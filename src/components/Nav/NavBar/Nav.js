@@ -13,13 +13,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { snackOpen, snackClose, modalOneOpen } from "../../../ducks/reducer"
 import { connect } from "react-redux";
 import Snackbar from "@material-ui/core/Snackbar";
-<<<<<<< HEAD:src/components/Nav/Nav.js
-import Logo from '../../media/Logo.svg'
-import './../../App.css'
-=======
-import Logo from '../../../media/Logo.svg';
-
->>>>>>> master:src/components/Nav/NavBar/Nav.js
+import Logo from '../../../media/Logo.svg'
+import './../../../App.css'
 
 const styles = {
   root: {
