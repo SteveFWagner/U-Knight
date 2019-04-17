@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Auth from "./Auth/Auth";
+import Auth from "../Auth/Auth";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -10,12 +10,16 @@ import Drawer from '@material-ui/core/Drawer';
 import MenuItem from "@material-ui/core/MenuItem";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
-import { snackOpen, snackClose, modalOneOpen } from "../../ducks/reducer";
+import { snackOpen, snackClose, modalOneOpen } from "../../../ducks/reducer"
 import { connect } from "react-redux";
 import Snackbar from "@material-ui/core/Snackbar";
+<<<<<<< HEAD:src/components/Nav/Nav.js
 import Logo from '../../media/Logo.svg'
 import './../../App.css'
+=======
+import Logo from '../../../media/Logo.svg';
+
+>>>>>>> master:src/components/Nav/NavBar/Nav.js
 
 const styles = {
   root: {
@@ -34,18 +38,21 @@ class Nav extends Component {
   constructor() {
     super();
     this.state = {
-      menu: null
+      menu: false
     };
   }
-  handleMenuClick = event => {
-    this.setState({ menu: event });
+  handleMenuClick = () => {
+    this.setState({ menu: true });
   };
 
   handleMenuClose = () => {
-    this.setState({ menu: null });
+    this.setState({ menu: false });
   };
   route = val => {
     if (this.props.user_id === 0 && val === `/account/${this.props.user_id}`) {
+      this.props.snackOpen();
+      this.props.modalOneOpen();
+    } else if (this.props.user_id === 0 && val === `/hostevent`) {
       this.props.snackOpen();
       this.props.modalOneOpen();
     } else {
@@ -73,17 +80,15 @@ class Nav extends Component {
               aria-haspopup="true"
             >
               <MenuIcon
-                style={{ width: 40, height: 40 }} />
+                style={{ width: 40, height: 40 }} 
+                />
             </IconButton>
-            <IconButton
-              onClick={() => this.route("/")}
-              style={{ marginLeft: 30, marginRight: 20 }}
-            >
-              <img src={Logo} alt="ukinght" style={{ width: 100, height: 'auto' }} />
-            </IconButton>
+            
+              <img onClick={() => this.route("/")} src={Logo} alt="ukinght" style={{ width: 100, height: 'auto', marginRight: 20, marginTop: 10, marginBottom: 10 }} />
+            
             <Drawer
               id="simple-menu"
-              menu={menu}
+              
               open={menu}
               onClose={this.handleClose}
 
@@ -106,21 +111,22 @@ class Nav extends Component {
             <Typography variant="h6" color="inherit" className={classes.grow} style={{fontFamily:`'East Sea Dokdo', cursive`, fontSize:60, margin:0, padding:0}}>
               U-KNIGHT
             </Typography>
-            <Button onClick={() => this.route(`/account/${this.props.user_id}`)}>
+            
               <CardMedia
+                onClick={() => this.route(`/account/${this.props.user_id}`)}
                 className={classes.media}
-                image="http://urly.fi/1cw4"
+                image={this.props.image || 'http://urly.fi/1cI3'}
                 title="Contemplative Reptile"
                 style={{ borderRadius: "50%", marginRight: 30, width: 60, height: 60 }}
               />
-            </Button>
+            
             <Auth />
           </Toolbar>
         </AppBar>
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "right" }}
           autoHideDuration={3000}
-          open={snack}
+          open={snack || false}
           onClose={this.handleSnackClose}
           ContentProps={{
             "aria-describedby": "message-id"
@@ -131,9 +137,11 @@ class Nav extends Component {
     );
   }
 }
+
 const mapStateToProps = state => {
   return {
     user_id: state.user_id,
+    image: state.image,
     snack: state.snack
   };
 };

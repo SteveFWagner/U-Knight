@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
-import Nav from './components/Nav/Nav'
+import Nav from './components/Nav/NavBar/Nav'
 import routes from './routes'
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles'
 import './App.css'
