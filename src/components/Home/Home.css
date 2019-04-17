@@ -1,7 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=East+Sea+Dokdo');
+
 #header{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#home-title{
+    font-family: 'East Sea Dokdo', cursive;
+    font-size: 100px;
+    margin:0;
+    padding:0;
+}
+
+#home-subtitle{
+    font-family: 'East Sea Dokdo', cursive;
+    font-size: 40px;
 }
 
 iframe{
@@ -16,6 +30,6 @@ iframe{
 }
 
 #events-container{
-    max-height:30vh;
+    max-height:25vh;
     overflow: auto;
 }

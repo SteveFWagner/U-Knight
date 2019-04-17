@@ -15,6 +15,7 @@ import { snackOpen, snackClose, modalOneOpen } from "../../ducks/reducer";
 import { connect } from "react-redux";
 import Snackbar from "@material-ui/core/Snackbar";
 import Logo from '../../media/Logo.svg'
+import './../../App.css'
 
 const styles = {
   root: {
@@ -61,7 +62,7 @@ class Nav extends Component {
     const { menu } = this.state;
     return (
       <div>
-        <AppBar position="static" color='default'>
+        <AppBar position="static" color='default' style={{maxHeight:'8vh'}}>
           <Toolbar>
             <IconButton
               className={classes.menuButton}
@@ -102,7 +103,7 @@ class Nav extends Component {
                 </div>
               </ClickAwayListener>
             </Drawer>
-            <Typography variant="h6" color="inherit" className={classes.grow}>
+            <Typography variant="h6" color="inherit" className={classes.grow} style={{fontFamily:`'East Sea Dokdo', cursive`, fontSize:60, margin:0, padding:0}}>
               U-KNIGHT
             </Typography>
             <Button onClick={() => this.route(`/account/${this.props.user_id}`)}>
