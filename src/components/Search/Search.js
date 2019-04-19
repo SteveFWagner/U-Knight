@@ -60,30 +60,37 @@ class Search extends Component {
     let results = [];
     events.forEach(event => {
       if (
-        event.title.toUpperCase().includes(searchString.toLocaleUpperCase()) ||
+        event.title.toUpperCase().includes(searchString.toUpperCase()) ||
         event.description
           .toUpperCase()
-          .includes(searchString.toLocaleUpperCase()) ||
-        event.category.toUpperCase().includes(searchString.toLocaleUpperCase())
+          .includes(searchString.toUpperCase()) ||
+        event.category.toUpperCase().includes(searchString.toUpperCase())
       ) {
           if(category === event.category || category === ''){
             if (location === "local") {
             let miles = zipcodes.distance(zipcode, event.zipcode);
             if(!distance){
                 if(event.zipcode !== 1000){
-                    results.push(event);
+                  // console.log('hit1', event.title)
+                  results.push(event);
                 }
             } else if (miles <= distance && miles !== null) {
+                // console.log('hit2', event.title)
                 results.push(event);
             } else if (Number(zipcode) === event.zipcode) {
+              // console.log('hit3', event.title)
                 results.push(event);
             } else {
                 return null;
             }
             } else if (location === "online") {
-            if (event.zipcode === 1000) results.push(event);
+              if (event.zipcode === 1000) {
+                // console.log('hit4', event.title, event.zipcode)
+                results.push(event);
+              }
             } else {
-            results.push(event);
+              // console.log('hit5', event.title)
+              results.push(event);
             }
         }
       }
@@ -98,6 +105,7 @@ class Search extends Component {
     // console.log(this.state)
     //categories
     const categories = [
+      "Any",
       "PC",
       "VR",
       "PlayStation",
@@ -108,11 +116,19 @@ class Search extends Component {
       "Retro"
     ];
     const mappedCategories = categories.map((cat, i) => {
-      return (
-        <MenuItem value={cat} key={i}>
-          {cat}
-        </MenuItem>
-      );
+      if(cat === 'Any'){
+        return (
+          <MenuItem value='' key={i}>
+            {cat}
+          </MenuItem>
+        );
+      }else{
+        return (
+          <MenuItem value={cat} key={i}>
+            {cat}
+          </MenuItem>
+        );
+      }
     });
 
     //If 'Local' is selected as the Location - display Zip Code and Distance

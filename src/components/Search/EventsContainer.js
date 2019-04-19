@@ -3,8 +3,8 @@ import React from 'react';
 import EventList from '../reusable/EventList'
 
 const EventsContainer = (props) => {
-    const mappedEvents = props.data.map((data, i)=>{
-        return <EventList data={data} key={i}/>
+    const mappedEvents = props.data.map((data)=>{
+        return <EventList data={data} key={data.event_id}/>
     })
     return (
         <>
