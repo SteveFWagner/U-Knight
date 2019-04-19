@@ -77,18 +77,19 @@ class S3Dropzone extends Component {
         <img src={ url } alt="" width="450px" />
 
         <Dropzone
-        formImagePlacehodler={'http://via.placeholder.com/450x450'}
         style={{
           position: 'relative',
+          color: 'white',
           borderWidth: 7,
-          marginTop: 100,
-          borderColor: 'rgb(102, 102, 102)',
+          borderColor: '#4051B5',
           borderStyle: 'dashed',
           borderRadius: 5,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           fontSize: 28,
+          width: 436,
+          cursor: 'pointer'
         }}
           onDropAccepted={ this.getSignedRequest }
           accept="image/*"
@@ -97,7 +98,7 @@ class S3Dropzone extends Component {
         >
 
           { () => (
-            isUploading ? <GridLoader /> : <p>Drop Deez Nutz</p>
+            isUploading ? <GridLoader /> : <p>Drag and drop or click to upload a photo!</p>
           ) }
 
 
