@@ -10,6 +10,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import Modal from '@material-ui/core/Modal'
 import AttendingModal from './AttendingModal'
 
+import { addOne } from '../../tests/SteveLogic'
 
 class Events extends Component{
     constructor(props){
@@ -44,6 +45,7 @@ class Events extends Component{
         }
         
     }
+
 
     handleUserInput = (prop,val) => {
         this.setState({
@@ -92,14 +94,18 @@ class Events extends Component{
         })
     }
     
+    addOne(val){
+        return addOne(val)
+    }
 
     render(){
+        console.log(addOne(5))
         console.log(this.state)
         const {description, title, address, zipcode, start_date, end_date, image} = this.state.data
         const {username, image:userImage} = this.state.host
         let zipCheck = zipcode
         let addressCheck = address
-        if(zipCheck == 1000){
+        if(Number(zipCheck) === 1000){
             zipCheck = ''
             addressCheck = 'Online!'
         }
