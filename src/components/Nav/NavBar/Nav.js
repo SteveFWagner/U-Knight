@@ -13,8 +13,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { snackOpen, snackClose, modalOneOpen } from "../../../ducks/reducer"
 import { connect } from "react-redux";
 import Snackbar from "@material-ui/core/Snackbar";
-import Logo from '../../../media/Logo.svg'
-import './../../../App.css'
+// import PersonalChat from '../PersonalChat/PersonalChat';
+import Logo from '../../../media/Logo.svg';
 
 const styles = {
   root: {
@@ -110,7 +110,7 @@ class Nav extends Component {
               <CardMedia
                 onClick={() => this.route(`/account/${this.props.user_id}`)}
                 className={classes.media}
-                image={this.props.image || 'http://urly.fi/1cI3'}
+                image={this.props.image || 'https://vectr.com/stevewagner/c3BocqDepf.png?width=320&height=320&select=c3BocqDepfpage0'}
                 title="Contemplative Reptile"
                 style={{ borderRadius: "50%", marginRight: 30, width: 60, height: 60 }}
               />
@@ -128,6 +128,7 @@ class Nav extends Component {
           }}
           message={<span > You must log in to proceed </span>}
         />
+        {/* <PersonalChat /> */}
       </div>
     );
   }

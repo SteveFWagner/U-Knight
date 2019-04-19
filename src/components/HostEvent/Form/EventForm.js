@@ -103,7 +103,7 @@ class EventForm extends Component {
         const { user_id } = this.props
         if (this.state.location === 'local') {
             axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone, user_id }).then(resp => {
-                let eventId = resp.data[ 0 ].event_id
+                let eventId = resp.data[0].event_id
                 this.props.history.push(`/event/${eventId}`)
             })
 
@@ -114,7 +114,7 @@ class EventForm extends Component {
             }
             const { address, zipcode } = obj
             axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone, user_id }).then(resp => {
-                let eventId = resp.data[ 0 ].event_id
+                let eventId = resp.data[0].event_id
                 this.props.history.push(`/event/${eventId}`)
             })
         }
@@ -129,37 +129,31 @@ class EventForm extends Component {
         console.log(222222, this.state)
         return (
             <div className='the-everything-container'>
+            
                 <form className='form'>
                     <div className='header'>
                         <Typography variant='h3'>Create An Epic Event !!</Typography>
                     </div>
-                    <div className='section1'>
-                        <div className='categoryselect'>
-                            <InputLabel>Category</InputLabel>
-                            <Select
 
-                                value={this.state.category}
-                                onChange={(e) => this.handleAllFormChanges('category', e.target.value)}
-                            >
-                                {mappedCategories}
-                            </Select>
-                        </div>
-
-                        <TextField
-                            className='title'
-                            id='standard-title'
-                            label='Your epic event title'
-                            value={this.state.title}
-                            onChange={e => this.handleAllFormChanges('title', e.target.value)}
-                            margin='normal'
-                        />
-
-                    </div>
+                    <TextField
+                        className='title'
+                        id='standard-title'
+                        label='Your epic event title'
+                        value={this.state.title}
+                        onChange={e => this.handleAllFormChanges('title', e.target.value)}
+                        margin='normal'
+                    />
 
 
 
-                    <fieldset className='section2'>
+
+
+
+
+                    <fieldset>
                         <FormLabel component='legend'>Will your event be</FormLabel>
+                    <div className='section2'>
+                        <div>
                         <RadioGroup
 
                             aria-label="position"
@@ -183,23 +177,35 @@ class EventForm extends Component {
                                 labelPlacement="start"
                             />
                         </RadioGroup>
+                        </div>
+                        <div className='categoryselect'>
+                            <InputLabel>Category</InputLabel>
+                            <Select
+
+                                value={this.state.category}
+                                onChange={(e) => this.handleAllFormChanges('category', e.target.value)}
+                            >
+                                {mappedCategories}
+                            </Select>
+                        </div>
+                        </div>
                     </fieldset>
 
 
 
                     <div className='section3'>
-                        <h5>Start Time</h5>
+                        <Typography variant="h5">Start Time</Typography>
                         <DatePicker
                             selected={this.state.start_date}
                             selectsStart
-                            startDate={ this.state.start_date }
-                            onChange={ this.handleDateStartChange }
-                            showTimeSelect={ true }
-                            shouldCloseOnSelect={ true }
-                            dateFormat={ 'MMMM d, yyyy h:mm aa' }
+                            startDate={this.state.start_date}
+                            onChange={this.handleDateStartChange}
+                            showTimeSelect={true}
+                            shouldCloseOnSelect={true}
+                            dateFormat={'MMMM d, yyyy h:mm aa'}
                             label='test'
                         />
-                        <h5>End Time</h5>
+                        <Typography variant="h5">End Time</Typography>
                         <DatePicker
                             selected={this.state.end_date}
                             selectsEnd
@@ -265,16 +271,18 @@ class EventForm extends Component {
                     </div>
                     <div className='section5'>
 
-                        <fieldset>
+                        <fieldset style={{minWidth: '50%'}}>
                             <TextField
                                 fullWidth={true}
                                 id="standard-multiline-flexible"
                                 label="Description"
                                 multiline
-                                rowsMax="11"
+                                rowsMax="6"
                                 value={this.state.description}
                                 onChange={e => this.handleAllFormChanges('description', e.target.value)}
                                 margin="normal"
+                                multiline={true}
+                                rows={3}
                             />
 
                         </fieldset>
@@ -292,10 +300,10 @@ class EventForm extends Component {
 
                 </form>
                 <div className='dropzone'>
-                    <S3Dropzone handleDropzone={ this.handleDropzone }
-                    image_url_placeholder={'http://via.placeholder.com/450x450'}
+                    <S3Dropzone handleDropzone={this.handleDropzone}
+                        image_url_placeholder={'http://urly.fi/1cX2'}
                     />
-                    
+
                 </div>
             </div>
 

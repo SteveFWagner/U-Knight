@@ -1,19 +1,27 @@
 .the-everything-container {
   display: flex;
-  justify-content: space-between;
-  background-color: tan;
+  justify-content: space-around;
+  /* background-color: #283033; */
+  margin-top: 6%;
+
 }
 
 .form {
 display: flex;
 flex-direction: column;
 padding: 25px;
-background-color: tan;
+background-color: #283033;
 width: 50%;
+align-items: center;
+border-radius: 8px;
 }
-
+fieldset {
+  width: 60%
+}
 .section2 {
-  width: 30%;
+  display: flex;
+  justify-content: space-around;
+  
 }
 .section4 {
   display: flex;
@@ -29,10 +37,15 @@ display: flex;
 width: 100%;
 }
 .categoryselect{
-  width: 50%;
+  width: 10%;
+  
+   
+
+}
+.section5{
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
 }
 /*
 .inputForm {

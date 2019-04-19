@@ -4,12 +4,11 @@ import { withStyles } from '@material-ui/core/styles';
 import HostList from './HostList';
 import AttendList from './AttendList';
 import Settings from "@material-ui/icons/Settings";
+import Message from "@material-ui/icons/Message";
 import { connect } from "react-redux";
 import { updateUser } from "../../ducks/reducer";
 import Dropzone from '../Dropzone/S3Dropzone'
 import { Input, InputLabel, Avatar, Modal, IconButton, CardMedia, Typography, Paper, FormControl, Button } from '@material-ui/core';
-
-
 
 
 
@@ -108,8 +107,8 @@ class Account extends Component {
             let edits = await axios.put(`/api/user/${this.props.match.params.id}`, profile)
             console.log('profile', edits.data)
             this.editClose()
-            this.accountData()
             this.props.updateUser(edits.data[0])
+            this.accountData()
         } catch (err) {
             console.log(err)
         }
@@ -131,21 +130,27 @@ class Account extends Component {
     }
     handleChange(prop, val) {
         this.setState({
-          [prop]: val
+            [prop]: val
         })
-      }
+    }
     render() {
-        console.log(33333, this.props.image, this.props.username, this.props.bio)
+        console.log(33333, this.props)
         const { classes } = this.props;
+        let varButton =
+            <IconButton onClick={() => this.editOpen()} style={{ postition: 'relative', left: '45%' }}>
+                <Settings color='secondary' style={{ height: 40, width: 40 }} />
+            </IconButton>
+        if (this.props.user_id !== Number(this.props.match.params.id)) {
+            varButton =
+                <IconButton style={{ postition: 'relative', left: '45%' }}>
+                    <Message style={{ height: 40, width: 40 }} />
+                </IconButton>
+        }
         return (
             <div style={{ height: '100vh' }}>
                 <div style={{ position: 'relative', top: '20%', left: '50%', transform: 'translate(-50%, -50%)', width: '40vw' }}>
                     <Paper className={classes.paper}>
-                        <IconButton onClick={() => this.editOpen()} style={{ postition: 'relative', left: '45%' }}>
-                            <Settings color='secondary' style={{ height: 40, width: 40 }} />
-                        </IconButton>
-                        <Button variant="contained"
-                            color="primary" style={{ postition: 'relative', right: '38%', top: -45 }}>Message Me!</Button>
+                        {varButton}
                         <CardMedia
                             image={this.state.image}
                             title="profile picture"
@@ -201,9 +206,9 @@ class Account extends Component {
                                 </FormControl>
                                 <FormControl margin="normal" required fullWidth>
                                     <InputLabel >Edit Bio</InputLabel>
-                                    <Input value={this.state.bio} onChange={e => this.handleChange('bio', e.target.value)}  />
+                                    <Input value={this.state.bio} onChange={e => this.handleChange('bio', e.target.value)} />
                                 </FormControl>
-                                <Dropzone handleDropzone={ this.handleDropzone } />
+                                <Dropzone handleDropzone={this.handleDropzone} image_url_placeholder={this.props.image} />
                                 <Button
                                     fullWidth
                                     variant="contained"
@@ -220,6 +225,7 @@ class Account extends Component {
                 </div>
             </div>
         )
+       
     }
 }
 
@@ -235,5 +241,4 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     updateUser
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Account));
