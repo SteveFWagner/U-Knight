@@ -30,7 +30,6 @@ module.exports = {
     getEventHost: (req,res) => {
         const db = req.app.get('db')
         const {id} = req.params
-        console.log(id)
         db.Events.get_event_host(id)
         .then(data => {
             res.status(200).send(data)
@@ -93,7 +92,6 @@ module.exports = {
         attendingUsers: (req,res) => {
             const db = req.app.get('db')
             const {id} = req.params
-            console.log(id)
             db.Events.attending_users_info(id)
             .then(resp => {
                 res.status(200).send(resp)

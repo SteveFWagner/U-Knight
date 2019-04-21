@@ -281,7 +281,6 @@ class EventForm extends Component {
                                 value={this.state.description}
                                 onChange={e => this.handleAllFormChanges('description', e.target.value)}
                                 margin="normal"
-                                multiline={true}
                                 rows={3}
                             />
 

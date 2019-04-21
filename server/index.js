@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
+const socket = require('socket.io')
 const massive = require('massive')
 const session = require('express-session')
 
@@ -33,12 +34,39 @@ app.use(session({
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db)
     console.log('Database connected')
-    app.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`))
 })
+
+//Sockets
+
+const io = socket(app.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`)))
+
+io.on('connection', function(socket){
+    socket.on('joinRoom', async (roomName) => {
+        const db = app.get('db')
+        socket.join(roomName)
+        let event_id = roomName
+        let messages = await db.Sockets.get_message_history({event_id})
+        socket.emit('sendMsg', messages)
+    })
+    socket.on('leaveRoom', function(roomName){
+        socket.leave(roomName)
+    })
+    socket.on('sendMsg', async (data) => {
+        const { user_id, message, event_id, username } = data
+        const db = app.get('db')
+        await db.Sockets.create_message({user_id, message, event_id , username})
+        let messages = await db.Sockets.get_message_history({event_id})
+        io.to(data.event_id).emit('sendMsg', messages)
+    })
+})
+
+
+//Sockets
 
 //Controllers
 const eCt = require('./controllers/eventController')
 const ctrlUser = require('./controllers/authController')
+
 
 //ENDPOINTS
 //Auth
