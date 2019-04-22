@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const socket = require('socket.io')
 const massive = require('massive')
 const session = require('express-session')
-const socket = require('socket.io')
+
 
 const pg = require('pg')
 const pgSession = require('connect-pg-simple')(session)
