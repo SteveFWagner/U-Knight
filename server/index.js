@@ -62,5 +62,7 @@ const ctrlUser = require('./controllers/authController')
 //Messages
 
 // Dropzone
+    app.get('/api/signs3', eCt.s3Upload)
 
-app.get('/api/signs3', eCt.s3Upload)
+//stripe
+    app.post('/api/payment', eCt.handlePayment)

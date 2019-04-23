@@ -24,10 +24,11 @@
     "react-scripts": "2.1.8",
     "react-spinners": "^0.5.4",
     "react-star-rating-component": "^1.4.1",
+    "react-stripe-checkout": "^2.6.3",
     "redux": "^4.0.1",
     "redux-form": "^8.1.0",
     "redux-persist": "^5.10.0",
-    "stripe": "^6.28.0",
+    "stripe": "^6.29.0",
     "zipcodes": "^8.0.0"
   },
   "scripts": {

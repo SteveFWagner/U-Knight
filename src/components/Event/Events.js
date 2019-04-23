@@ -9,6 +9,7 @@ import {snackOpen, snackClose, modalOneOpen} from '../../ducks/reducer'
 import Snackbar from '@material-ui/core/Snackbar'
 import Modal from '@material-ui/core/Modal'
 import AttendingModal from './AttendingModal'
+import PayNow from './Payment/PayNow'
 
 import { addOne } from '../../tests/SteveLogic'
 
@@ -21,7 +22,8 @@ class Events extends Component{
             snackBar:false,
             snackBarMessage:'',
             modal:false,
-            userCount:0
+            userCount:0,
+            paymentModal:false
         }
     }
 
@@ -73,6 +75,16 @@ class Events extends Component{
         }
     }
 
+    handlePayNow = () => {
+        if(this.props.user_id === 0){
+            this.props.snackOpen();
+            this.props.modalOneOpen();
+        }else{
+            this.handleUserInput('paymentModal',true)
+        }
+    }
+
+
     handleRedirect = async (value) => {
         await this.setState({
             modal:false
@@ -99,8 +111,6 @@ class Events extends Component{
     }
 
     render(){
-        console.log(addOne(5))
-        console.log(this.state)
         const {description, title, address, zipcode, start_date, end_date, image} = this.state.data
         const {username, image:userImage} = this.state.host
         let zipCheck = zipcode
@@ -178,7 +188,8 @@ class Events extends Component{
                             className='event-signup-pay-button'
                             variant='contained'
                             color='primary'
-                            style={{fontSize:'30px', margin:'10px'}}>
+                            style={{fontSize:'30px', margin:'10px'}}
+                            onClick={()=>this.handlePayNow()}>
                             Pay Now*
                         </Button>
                         <Typography variant='body1'>
@@ -206,6 +217,9 @@ class Events extends Component{
                 </div>
                 <Modal id='modal' open={this.state.modal} onClose={()=>this.handleUserInput('modal',false)}>
                     <AttendingModal eventId={this.props.match.params.id} redirect={this.handleRedirect}/>
+                </Modal>
+                <Modal id='payment-modal' open={this.state.paymentModal} onClose={()=>this.handleUserInput('paymentModal',false)}>
+                    <PayNow closeModal={this.handleUserInput} eventId={this.props.match.params.id} userId={this.props.user_id}/>
                 </Modal>
                 <Snackbar
                     anchorOrigin={{ vertical: "top", horizontal: "right" }}

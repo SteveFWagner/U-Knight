@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './Events.css'
 import Typography from '@material-ui/core/Typography'
 import axios from 'axios'
 import AttendingUser from './AttendingUser'
