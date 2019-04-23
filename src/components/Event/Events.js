@@ -10,6 +10,9 @@ import Snackbar from '@material-ui/core/Snackbar'
 import Modal from '@material-ui/core/Modal'
 import AttendingModal from './AttendingModal'
 import PayNow from './Payment/PayNow'
+import io from 'socket.io-client';
+import Input from '@material-ui/core/Input';
+import MessageList from './MessageList'
 
 import { addOne } from '../../tests/SteveLogic'
 
@@ -23,13 +26,50 @@ class Events extends Component{
             snackBarMessage:'',
             modal:false,
             userCount:0,
-            paymentModal:false
+            paymentModal:false,
+            message: '',
+            messages: [],
         }
     }
 
     componentDidMount(){
         this.getData()
+        this.setSocketListeners()
+       
+        
     }
+    //Sockets
+    setSocketListeners = () => {
+        const {id} = this.props.match.params
+        this.socket = io()
+        this.socket.emit('joinRoom', id)
+
+        
+        this.socket.on('sendMsg', (msg) => {
+           
+           this.setState({
+               messages: msg,
+               message: ''
+           })
+        })
+    }
+
+    
+    
+    sendMessage = () => {
+        const data = {
+            user_id: this.props.user_id,
+            message: this.state.message,
+            event_id: this.props.match.params.id,
+            username: this.props.username
+        }
+        this.socket.emit('sendMsg',  data )
+        this.setState({
+            message: ''
+        })
+       
+    }
+    //Sockets
 
     getData = async () => {
         try {
@@ -60,8 +100,6 @@ class Events extends Component{
             this.props.snackOpen();
             this.props.modalOneOpen();
         }else{
-            console.log(this.props.user_id)
-            console.log(this.props.match.params.id)
             const event_id = this.props.match.params.id
             const {user_id} = this.props
             axios.post('/api/event/signup', {event_id, user_id})
@@ -99,7 +137,6 @@ class Events extends Component{
             res.data.forEach(user => {
                 count = count +1
             })
-            console.log(count)
             this.setState({
                 userCount:count
             })
@@ -197,24 +234,33 @@ class Events extends Component{
                         </Typography>
                     </div>
                 </div>
+
                 <div id='event-3-wrapper'>
                     <div id='event-chat'>
-                        <Typography variant='body1' style={{color:'#00BF0C'}}>
-                            kyle@3:30pm - Hello!
-                        </Typography>
-                        <Typography variant='body1' style={{color:'#00BF0C'}}>
-                            kyle@3:31pm - :'(
-                        </Typography>
+                        <MessageList 
+                        messages={this.state.messages}
+                        redirect={this.handleRedirect}
+                        />
                     </div>
                     <div id='event-chat-input-wrapper'>
-                        <div id='event-chat-input'>
+                        <Input
+                        id='event-chat-input'
+                        value={this.state.message}
+                        variant='filled'
+                        multiline
+                        rows={3}
+                        rowsMax={3}
+                        disableUnderline={true}
+                        onChange={e => { this.handleUserInput('message', e.target.value)}}
+                        />
 
-                        </div>
-                        <Button variant='contained' color='secondary'>
+                        
+                        <Button variant='contained' color='secondary' onClick={() => {this.sendMessage()}}>
                             Send
                         </Button>
                     </div>
                 </div>
+
                 <Modal id='modal' open={this.state.modal} onClose={()=>this.handleUserInput('modal',false)}>
                     <AttendingModal eventId={this.props.match.params.id} redirect={this.handleRedirect}/>
                 </Modal>
@@ -239,6 +285,7 @@ class Events extends Component{
 const mapStateToProps = state => {
     return {
       user_id: state.user_id,
+      username: state.username,
       snack: state.snack
     };
   };

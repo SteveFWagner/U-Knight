@@ -58,12 +58,10 @@ class Account extends Component {
     }
 
     componentDidMount() {
-        console.log('remount')
         this.accountData()
     }
     accountData = async () => {
         if (this.props.user_id === Number(this.props.match.params.id)) {
-            console.log('mountimg', this.props.image)
             this.setState({
                 username: this.props.username,
                 image: this.props.image,
@@ -98,14 +96,14 @@ class Account extends Component {
             bio: this.state.bio,
         }
         if (this.state.imageTwo !== '') {
-            console.log('hit')
+            
             profile.image = this.state.imageTwo
         } else {
             profile.image = this.props.image
         }
         try {
             let edits = await axios.put(`/api/user/${this.props.match.params.id}`, profile)
-            console.log('profile', edits.data)
+            
             this.editClose()
             this.props.updateUser(edits.data[0])
             this.accountData()
@@ -134,7 +132,6 @@ class Account extends Component {
         })
     }
     render() {
-        console.log(33333, this.props)
         const { classes } = this.props;
         let varButton =
             <IconButton onClick={() => this.editOpen()} style={{ postition: 'relative', left: '45%' }}>

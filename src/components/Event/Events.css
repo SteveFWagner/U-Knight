@@ -101,22 +101,26 @@
 
 #event-chat{
     height:85%;
+    overflow: auto;
     /* background:#EAE3E7; */
     color:#00BF0C;
+    transform:rotate(180deg);
 }
 
 #event-chat-input-wrapper{
     margin-top:20px;
-    height:8%;
+    /* height:8%; */
     display:flex;
     justify-content: space-between;
 }
 
 #event-chat-input{
-    width:70%;
-    height:100%;
+    /* width:70%;
+    height:100%; */
     background:#D8D8D8;
     border-radius: 5px;
+    color: black;
+    /* font-size: 40px */
 }
 
 #attending-modal{
