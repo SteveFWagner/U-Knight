@@ -14,7 +14,7 @@ import io from 'socket.io-client';
 import Input from '@material-ui/core/Input';
 import MessageList from './MessageList'
 
-import { addOne } from '../../tests/SteveLogic'
+import { addOne } from '../../tests/SteveTests/SteveLogic'
 
 class Events extends Component{
     constructor(props){
