@@ -35,17 +35,14 @@ class EventList extends Component{
     setLocation = async() =>{
         let location = await zipcodes.lookup(this.props.data.zipcode)
         if(this.props.data.zipcode === 1000){
-            console.log('hit11', this.props.data.zipcode, this.props.data.title)
             this.setState({
                 cityOrOnline:'Online',
             })
         }else if(location === undefined){
-            console.log('hit22', this.props.data.zipcode, this.props.data.title)
             this.setState({
                 cityOrOnline:'View Event for details!',
             })
         }else{
-            console.log('hit33', this.props.data.zipcode)
             this.setState({
                 state:location.state,
                 cityOrOnline:location.city

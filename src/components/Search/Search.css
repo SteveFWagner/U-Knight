@@ -1,6 +1,60 @@
 @import url('https://fonts.googleapis.com/css?family=East+Sea+Dokdo');
 
 
+#search-wrapper{
+    height:85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form{
+    padding:10px;
+    display:flex;
+    flex-direction: column;
+}
+
+#radio-group{
+    width:50%;
+    border:solid white;
+    padding-right: 10px;
+}
+
+#search-bar{
+    width:40vw;
+}
+
+#search-category-select{
+    margin-bottom:10px; 
+    width:50%;
+}
+
 #search-title{
     font-family: 'East Sea Dokdo', cursive;
 }
+
+#your-mom{
+    height:50vh;
+    overflow: auto;
+}
+
+::-webkit-scrollbar-track
+{
+	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color:black;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+::-webkit-scrollbar-thumb
+{
+	border-radius: 3px;
+	box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #F50357;
+}
+
+
+
