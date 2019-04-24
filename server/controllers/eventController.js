@@ -1,3 +1,5 @@
+const stripe = require('stripe')(process.env.STRIPE_SECRET)
+
 module.exports = {
     getEvents: (req, res) => {
         const db = req.app.get('db')
@@ -94,6 +96,30 @@ module.exports = {
                 res.status(200).send(resp)
             })
 
+        },
+        handlePayment: (req,res) => {
+            const db = req.app.get('db')
+            const {amount, token:{id}, eventId, userId} = req.body
+            stripe.charges.create({
+                amount,
+                currency:'usd',
+                source: id,
+                description:"U-Knight Test"
+            },
+            (err,charge) => {
+                if(err){
+                    console.log(err)
+                    return res.status(500).send(err)
+                }else{
+                    console.log(charge)
+                    db.Events.update_event_paid(eventId, userId, amount)
+                    .then(resp => {
+                        return res.status(200).send(charge)
+                    })
+                    .catch(error => console.log(error))
+                }
+            }
+            )
         }
 
     }
