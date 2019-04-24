@@ -164,3 +164,28 @@
     object-fit:cover;
     border-radius: 100%;
 }
+
+#payment-modal{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#paynow-wrapper{
+    margin:20px;
+    height:200px;
+    max-width: 80vw;
+    max-height: 70vh;
+    border-radius: 8px;
+    background:#212121;
+    padding:20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+#paynow-amount-select{
+    width:50%;
+}

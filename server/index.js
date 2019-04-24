@@ -37,7 +37,6 @@ massive(CONNECTION_STRING).then(db => {
 })
 
 //Sockets
-
 const io = socket(app.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`)))
 
 io.on('connection', function(socket){
@@ -60,8 +59,6 @@ io.on('connection', function(socket){
     })
 })
 
-
-//Sockets
 
 //Controllers
 const eCt = require('./controllers/eventController')
@@ -87,16 +84,8 @@ const ctrlUser = require('./controllers/authController')
     app.post('/api/event/signup', eCt.signup)
     app.get('/api/event/attending/:id', eCt.attendingUsers)
 
-//Messages
-
 // Dropzone
+    app.get('/api/signs3', eCt.s3Upload)
 
-app.get('/api/signs3', eCt.s3Upload)
-
-// Sockets
-
-
-
-
-
-// app.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`))
+//stripe
+    app.post('/api/payment', eCt.handlePayment)
