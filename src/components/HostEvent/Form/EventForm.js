@@ -292,7 +292,9 @@ class EventForm extends Component {
                         variant='contained'
                         type='button'
                         color='primary'
-                    >button</Button>
+                    >
+                        Submit
+                    </Button>
 
 
 

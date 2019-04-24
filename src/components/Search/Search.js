@@ -173,11 +173,17 @@ class Search extends Component {
     }
 
     return (
-      <div>
+      <div id='search-wrapper'>
         <Typography variant='h1' id='search-title'>Search for an Event!</Typography>
         <form>
+          {/* Search Bar */}
+          <TextField
+            id='search-bar'
+            label="Search for an event..."
+            onChange={e => this.handleUserInput("searchString", e.target.value)}
+          />
           {/* Category input */}
-          <FormControl>
+          <FormControl id='search-category-select'>
             <InputLabel>Category</InputLabel>
             <Select
               value={this.state.category}
@@ -194,34 +200,33 @@ class Search extends Component {
               value={this.state.location}
               onChange={e => this.handleUserInput("location", e.target.value)}
               row={true}
+              id='radio-group'
             >
               <FormControlLabel
                 value="online"
-                control={<Radio color="primary" />}
+                control={<Radio color="secondary" />}
                 label="Online"
                 labelPlacement="start"
               />
               <FormControlLabel
                 value="local"
-                control={<Radio color="primary" />}
+                control={<Radio color="secondary" />}
                 label="Local"
                 labelPlacement="start"
               />
               <FormControlLabel
                 value=""
-                control={<Radio color="primary" />}
+                control={<Radio color="secondary" />}
                 label="Any"
                 labelPlacement="start"
               />
             </RadioGroup>
           </FormControl>
           {localDisplay}
-          <TextField
-            label="Search for an event..."
-            onChange={e => this.handleUserInput("searchString", e.target.value)}
-          />
         </form>
-        <EventsContainer data={this.state.searchResults} />
+        <div id='your-mom'>
+          <EventsContainer data={this.state.searchResults} />
+        </div>
       </div>
     );
   }
