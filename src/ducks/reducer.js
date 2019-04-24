@@ -52,7 +52,6 @@ export function snackClose(){
 }
 
 export function updateUser(user){
-    console.log(44445555,user)
     return{
         type: UPDATE_USER,
         payload: user

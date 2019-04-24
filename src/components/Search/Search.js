@@ -71,38 +71,31 @@ class Search extends Component {
             let miles = zipcodes.distance(zipcode, event.zipcode);
             if(!distance){
                 if(event.zipcode !== 1000){
-                  // console.log('hit1', event.title)
                   results.push(event);
                 }
             } else if (miles <= distance && miles !== null) {
-                // console.log('hit2', event.title)
                 results.push(event);
             } else if (Number(zipcode) === event.zipcode) {
-              // console.log('hit3', event.title)
                 results.push(event);
             } else {
                 return null;
             }
             } else if (location === "online") {
               if (event.zipcode === 1000) {
-                // console.log('hit4', event.title, event.zipcode)
                 results.push(event);
               }
             } else {
-              // console.log('hit5', event.title)
               results.push(event);
             }
         }
       }
     });
-    // console.log(results)
     this.setState({
       searchResults: results
     });
   };
 
   render() {
-    // console.log(this.state)
     //categories
     const categories = [
       "Any",

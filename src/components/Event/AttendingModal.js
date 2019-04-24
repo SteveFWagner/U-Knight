@@ -27,7 +27,6 @@ class AttendingModal extends Component {
     }
 
     render() {
-        console.log(this.state)
         const mappedUsers = this.state.data.map((user,i) => {
             return <AttendingUser data={user} key={i} redirect={this.props.redirect}/>
         })

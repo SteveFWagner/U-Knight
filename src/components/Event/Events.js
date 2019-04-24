@@ -36,6 +36,9 @@ class Events extends Component{
        
         
     }
+    componentWillUnmount(){
+        this.socket.disconnect()
+    }
     //Sockets
     setSocketListeners = () => {
         const {id} = this.props.match.params
