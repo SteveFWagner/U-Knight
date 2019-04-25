@@ -95,13 +95,21 @@ class EventForm extends Component {
         })
     }
 
+    combineCityStateZip = () => {
+        const {city, state} = this.state
+        
+        this.setState(prevState => ({
+            address: `${prevState.address} ${city} ${state}`
+        }))
+    }
 
-    submitForm = (e) => {
+    submitForm = async (e) => {
         e.preventDefault()
-        const { title, category, description, address, start_date, end_date, zipcode, dropzone } = this.state
+        const { title, category, description, address, start_date, end_date, zipcode, dropzone, city, state } = this.state
         const { user_id } = this.props
+        let completeAddress = `${address} ${city} ${state}`
         if (this.state.location === 'local') {
-            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone, user_id }).then(resp => {
+            axios.post('/api/submitForm', { title, category, description, completeAddress, start_date, end_date, zipcode, dropzone, user_id }).then(resp => {
                 let eventId = resp.data[0].event_id
                 this.props.history.push(`/event/${eventId}`)
             })
@@ -112,7 +120,7 @@ class EventForm extends Component {
                 address: 'online'
             }
             const { address, zipcode } = obj
-            axios.post('/api/submitForm', { title, category, description, address, start_date, end_date, zipcode, dropzone, user_id }).then(resp => {
+            axios.post('/api/submitForm', { title, category, description, completeAddress, start_date, end_date, zipcode, dropzone, user_id }).then(resp => {
                 let eventId = resp.data[0].event_id
                 this.props.history.push(`/event/${eventId}`)
             })
@@ -140,7 +148,7 @@ class EventForm extends Component {
                         onChange={e => this.handleAllFormChanges('title', e.target.value)}
                         margin='normal'
                         inputProps={{
-                            maxLength:10
+                            maxLength:40
                         }}
                     />
 

@@ -84,6 +84,9 @@
 #event-image{
     width:100%;
     height:auto;
+    max-width: 35vw;
+    max-height: 45vh;
+    margin-bottom: 10px;
 }
 
 #event-signup-pay-wrapper{
