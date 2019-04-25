@@ -12,7 +12,7 @@ function HostList(props){
 
             <Paper key={event.event_id} className='accountlists'>
                 <Typography id='eventheader'>{event.title}</Typography>
-                <Typography style={{ fontSize: 20 }}>the category was {event.category}</Typography>
+                <Typography style={{ fontSize: 20 }}>The category was {event.category}.</Typography>
                 <Typography style={{ fontSize: 20 }}>{moment(event.start_date).format('LL')}</Typography>
             </Paper>
 

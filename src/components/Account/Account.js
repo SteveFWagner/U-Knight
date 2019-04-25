@@ -59,6 +59,11 @@ class Account extends Component {
     componentDidMount() {
         this.accountData()
     }
+    componentDidUpdate(prevProps, prevState){
+        if(prevProps.match.params.id !== this.props.match.params.id){
+            this.accountData()
+        }
+    }
     accountData = async () => {
         if (this.props.user_id === Number(this.props.match.params.id)) {
             this.setState({
@@ -66,11 +71,12 @@ class Account extends Component {
                 image: this.props.image,
                 bio: this.props.bio,
             })
+             
             let host = await axios.get(`/api/hosted/${this.props.match.params.id}`)
             let attend = await axios.get(`/api/attended/${this.props.match.params.id}`)
-            this.setState(prevState => ({
-                attended: [...prevState.attended, ...attend.data],
-                hosted: [...prevState.hosted, ...host.data]
+             this.setState(prevState => ({
+                attended: attend.data,
+                hosted: host.data
             }))
         } else {
             try {
@@ -81,8 +87,8 @@ class Account extends Component {
                     username: account.data[0].username,
                     image: account.data[0].image,
                     bio: account.data[0].bio,
-                    attended: [...prevState.attended, ...attend.data],
-                    hosted: [...prevState.hosted, ...host.data]
+                    attended: attend.data,
+                    hosted: host.data
                 }))
             } catch (err) {
 
@@ -102,10 +108,11 @@ class Account extends Component {
         }
         try {
             let edits = await axios.put(`/api/user/${this.props.match.params.id}`, profile)
-
-            this.editClose()
+            console.log(222, edits.data[0], edits.data)
             this.props.updateUser(edits.data[0])
+
             this.accountData()
+            this.editClose()
         } catch (err) {
             console.log(err)
         }
@@ -131,6 +138,7 @@ class Account extends Component {
         })
     }
     render() {
+        console.log(5555, this.props.user_id, Number(this.props.match.params.id))
         const { classes } = this.props;
         let varButton =
             <IconButton onClick={() => this.editOpen()} style={{ postition: 'relative', left: '45%' }}>
@@ -154,7 +162,7 @@ class Account extends Component {
                 </div>
                 </div>
                 <div className='profileinfo'>
-                    <Paper className={classes.paper}>
+                    <Paper className={classes.paper}id="profilepaper">
                         {varButton}
                         <CardMedia
                             image={this.state.image}
@@ -164,7 +172,7 @@ class Account extends Component {
                         <Typography color='secondary' style={{ fontSize: 80 }}>
                             {this.state.username}
                         </Typography>
-                        <Typography style={{ fontSize: 40 }}>
+                        <Typography style={{ fontSize: 30 }}>
                             {this.state.bio}
                         </Typography>
                     </Paper>
