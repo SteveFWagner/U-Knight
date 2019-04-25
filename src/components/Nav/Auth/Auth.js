@@ -74,6 +74,7 @@ class Auth extends Component {
       pas: '',
 
       snack: false,
+      snackMessage: '',
 
 
 
@@ -127,9 +128,15 @@ class Auth extends Component {
       let res = await axios.post('/auth/login', user)
       this.props.updateUser(res.data)
       this.handleModalOneClose()
-      alert('logged in')
+      this.setState({
+        snackMessage: 'Logged in!'
+      })
+      return this.snackOpen()
     } catch (err) {
-      alert(err)
+      this.setState({
+        snackMessage: 'Could not be logged in'
+      })
+      return this.snackOpen()
     }
   }
   async register() {
@@ -140,21 +147,36 @@ class Auth extends Component {
       image: 'https://vectr.com/stevewagner/c3BocqDepf.png?width=320&height=320&select=c3BocqDepfpage0'
     }
     if (this.state.emailValidation === false) {
+      this.setState({
+        snackMessage: 'Your account could not be created'
+      })
       return this.snackOpen()
     }
     if (this.state.score < 3) {
+      this.setState({
+        snackMessage: 'Your account could not be created'
+      })
       return this.snackOpen()
     }
-    if( this.state.usernameError === true || this.state.username === ''){
+    if (this.state.usernameError === true || this.state.username === '') {
+      this.setState({
+        snackMessage: 'Your account could not be created'
+      })
       return this.snackOpen()
     }
     try {
       let res = await axios.post('/auth/register', user)
       this.props.updateUser(res.data)
       this.handleModalTwoClose()
-      alert('user created')
+      this.setState({
+        snackMessage: 'User created!'
+      })
+      return this.snackOpen()
     } catch (err) {
-      alert(err)
+      this.setState({
+        snackMessage: 'Email already in use'
+      })
+      return this.snackOpen()
     }
 
   }
@@ -238,7 +260,7 @@ class Auth extends Component {
   render() {
     const { classes } = this.props
     let passwordErrorMessage = null
-    if(this.state.password !== ''){
+    if (this.state.password !== '') {
       passwordErrorMessage = <Typography style={{ color: this.state.pas }}>It would take {this.state.crackTime} to crack this password {this.state.goodEnough}</Typography>
     }
     if (this.props.user_id !== 0) {
@@ -359,15 +381,15 @@ class Auth extends Component {
             </main>
           </Modal>
           <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          autoHideDuration={3000}
-          open={this.state.snack || false}
-          onClose={this.snackClose}
-          ContentProps={{
-            "aria-describedby": "message-id"
-          }}
-          message={<span > Your account could not be created </span>}
-        />
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            autoHideDuration={3000}
+            open={this.state.snack || false}
+            onClose={this.snackClose}
+            ContentProps={{
+              "aria-describedby": "message-id"
+            }}
+            message={<span >{this.state.snackMessage}</span>}
+          />
         </div>
       )
     }

@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=East+Sea+Dokdo');
+
+.accountbody{
+    height: 76vh
+}
+.accountcontent{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.accountlists{
+    margin: 10px;
+    text-align: center;
+}
+.listheader{
+    margin-top: 5vh
+}
+.listbox{
+    height: 70vh;
+    width: 500px;
+    overflow: auto;
+}
+#eventheader{
+    font-size: 80px;
+    /* color: #4051B5; */
+    font-family: 'East Sea Dokdo', cursive;
+    margin: unset
+}
