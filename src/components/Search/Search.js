@@ -9,6 +9,7 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 import zipcodes from 'zipcodes'
+import moment from 'moment'
 
 import EventsContainer from './EventsContainer'
 import { Typography } from '@material-ui/core';
@@ -32,13 +33,33 @@ class Search extends Component {
     this.getData();
   }
 
-  getData() {
-    axios.get("/api/events").then(res => {   
-      this.setState({
-        events: res.data,
-        searchResults: res.data
-      });
-    });
+  getData = async() => {
+    const res = await axios.get('/api/events')
+    const filteredData = await res.data.filter(event => {
+        const eventStart = moment(event.start_date)
+        const timeNow = moment()
+        if(timeNow.diff(eventStart,'days') <= 0 ){
+            return true
+        }else {
+            return false
+        }
+        
+    })
+    let sortedData = await filteredData.sort((a,b)=>{
+        let timeA = moment(a.start_date)
+        let timeB = moment(b.start_date)
+        if(timeA>timeB){
+            return -1
+        }else if(timeA<timeB){
+            return 1
+        }else {
+            return 0
+        }
+    })
+    this.setState({
+        events: sortedData,
+        searchResults: sortedData
+    })
   }
 
   handleUserInput = async (prop, val) => {
@@ -56,8 +77,8 @@ class Search extends Component {
 
   handleSearch = () => {
     const { searchString, events, zipcode, location, distance, category } = this.state;
-
     let results = [];
+
     events.forEach(event => {
       if (
         event.title.toUpperCase().includes(searchString.toUpperCase()) ||
@@ -168,7 +189,8 @@ class Search extends Component {
     return (
       <div id='search-wrapper'>
         <Typography variant='h1' id='search-title'>Search for an Event!</Typography>
-        <form>
+        <div id='form'>
+
           {/* Search Bar */}
           <TextField
             id='search-bar'
@@ -216,7 +238,7 @@ class Search extends Component {
             </RadioGroup>
           </FormControl>
           {localDisplay}
-        </form>
+        </div>
         <div id='your-mom'>
           <EventsContainer data={this.state.searchResults} />
         </div>

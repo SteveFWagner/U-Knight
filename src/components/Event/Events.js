@@ -60,17 +60,21 @@ class Events extends Component{
     
     
     sendMessage = () => {
-        const data = {
-            user_id: this.props.user_id,
-            message: this.state.message,
-            event_id: this.props.match.params.id,
-            username: this.props.username
+        if(this.props.user_id === 0){
+            this.props.snackOpen();
+            this.props.modalOneOpen();
+        }else{
+            const data = {
+                user_id: this.props.user_id,
+                message: this.state.message,
+                event_id: this.props.match.params.id,
+                username: this.props.username
+            }
+            this.socket.emit('sendMsg',  data )
+            this.setState({
+                message: ''
+            })
         }
-        this.socket.emit('sendMsg',  data )
-        this.setState({
-            message: ''
-        })
-       
     }
     //Sockets
 
@@ -151,7 +155,6 @@ class Events extends Component{
     }
 
     render(){
-        console.log(this.state.host)
         const {description, title, address, zipcode, start_date, end_date, image} = this.state.data
         const {username, image:userImage, user_id:hostId} = this.state.host
         let zipCheck = zipcode
@@ -162,6 +165,12 @@ class Events extends Component{
         }
         let startDate = moment(start_date).format('MMMM Do YYYY, h:mm a')
         let endDate = moment(end_date).format('MMMM Do YYYY, h:mm a')
+        let displayImage
+        if(!image){
+            displayImage = 'http://urly.fi/1ddU'
+        }else{
+            displayImage = image
+        }
         return(
             <div id='event-wrapper'>
                 <div id='event-1-wrapper'>
@@ -215,7 +224,7 @@ class Events extends Component{
                     </div>
                 </div>
                 <div id='event-2-wrapper'>
-                    <img id='event-image' src={image} alt="event"/>
+                    <img id='event-image' src={displayImage} alt=''/>
                     <div id='event-signup-pay-wrapper'>
                         <Button
                             className='event-signup-pay-button'
@@ -231,9 +240,9 @@ class Events extends Component{
                             color='primary'
                             style={{fontSize:'30px', margin:'10px'}}
                             onClick={()=>this.handlePayNow()}>
-                            Pay Now*
+                            Pitch In
                         </Button>
-                        <Typography variant='body1'>
+                        <Typography variant='body1' style={{fontSize:12}}>
                             *See event description for details on any required payments prior to event.
                         </Typography>
                     </div>
@@ -255,6 +264,9 @@ class Events extends Component{
                         rows={3}
                         rowsMax={3}
                         disableUnderline={true}
+                        inputProps={{
+                            maxLength:125
+                        }}
                         onChange={e => { this.handleUserInput('message', e.target.value)}}
                         />
 

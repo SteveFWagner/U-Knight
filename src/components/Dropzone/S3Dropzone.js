@@ -94,7 +94,7 @@ class S3Dropzone extends Component {
         >
 
           { () => (
-            isUploading ? <GridLoader /> : <p>Drag and drop or click to upload a photo!</p>
+            isUploading ? <GridLoader /> : <p>Drop an Image or Click to Upload</p>
           ) }
 
 
