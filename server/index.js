@@ -5,11 +5,11 @@ const socket = require('socket.io')
 const massive = require('massive')
 const session = require('express-session')
 
+
 const pg = require('pg')
 const pgSession = require('connect-pg-simple')(session)
 
-
-const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET, S3_BUCKET, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY  } = process.env
+const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET, S3_BUCKET, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = process.env
 
 const app = express();
 
