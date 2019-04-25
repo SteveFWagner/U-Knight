@@ -4,12 +4,11 @@ import { withStyles } from '@material-ui/core/styles';
 import HostList from './HostList';
 import AttendList from './AttendList';
 import Settings from "@material-ui/icons/Settings";
-import Message from "@material-ui/icons/Message";
 import { connect } from "react-redux";
 import { updateUser } from "../../ducks/reducer";
 import Dropzone from '../Dropzone/S3Dropzone'
 import { Input, InputLabel, Avatar, Modal, IconButton, CardMedia, Typography, Paper, FormControl, Button } from '@material-ui/core';
-
+import './Account.css'
 
 
 const styles = theme => ({
@@ -96,14 +95,14 @@ class Account extends Component {
             bio: this.state.bio,
         }
         if (this.state.imageTwo !== '') {
-            
+
             profile.image = this.state.imageTwo
         } else {
             profile.image = this.props.image
         }
         try {
             let edits = await axios.put(`/api/user/${this.props.match.params.id}`, profile)
-            
+
             this.editClose()
             this.props.updateUser(edits.data[0])
             this.accountData()
@@ -138,14 +137,23 @@ class Account extends Component {
                 <Settings color='secondary' style={{ height: 40, width: 40 }} />
             </IconButton>
         if (this.props.user_id !== Number(this.props.match.params.id)) {
-            varButton =
-                <IconButton style={{ postition: 'relative', left: '45%' }}>
-                    <Message style={{ height: 40, width: 40 }} />
-                </IconButton>
+            varButton = null
         }
         return (
-            <div style={{ height: '100vh' }}>
-                <div style={{ position: 'relative', top: '20%', left: '50%', transform: 'translate(-50%, -50%)', width: '40vw' }}>
+            <div className="accountbody" >
+            <div className="accountcontent">
+                <div className="listheader">
+                        <Typography color='secondary' style={{ fontSize: 60 }}>
+                            Events hosted
+                        </Typography>
+                <div className="listbox">
+                        <HostList
+                            hosted={this.state.hosted}
+                            classes={classes}
+                        />
+                </div>
+                </div>
+                <div className='profileinfo'>
                     <Paper className={classes.paper}>
                         {varButton}
                         <CardMedia
@@ -161,25 +169,17 @@ class Account extends Component {
                         </Typography>
                     </Paper>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-around', }}>
-                    <div>
-                        <Typography color='secondary' style={{ fontSize: 60 }}>
-                            Events hosted
-                </Typography>
-                        <HostList
-                            hosted={this.state.hosted}
-                            classes={classes}
-                        />
-                    </div>
-                    <div>
+                <div className="listheader">
                         <Typography color='secondary' style={{ fontSize: 60 }}>
                             Events attended
-                </Typography>
+                        </Typography>
+                <div className='listbox'>
                         <AttendList
                             attended={this.state.attended}
                             classes={classes}
                         />
-                    </div>
+                </div>
+                </div>
                 </div>
                 <div>
                     <Modal open={this.state.openEdit || false} onClose={() => { this.editClose() }}>
@@ -222,7 +222,7 @@ class Account extends Component {
                 </div>
             </div>
         )
-       
+
     }
 }
 
