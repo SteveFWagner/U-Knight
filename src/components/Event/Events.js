@@ -216,7 +216,10 @@ class Events extends Component{
                                     Where:
                                 </Typography>
                                 <Typography id='event-location' variant='body1'>
-                                    {addressCheck} {zipCheck}
+                                    {addressCheck}
+                                </Typography>
+                                <Typography id='event-location' variant='body1'>
+                                    {zipCheck}
                                 </Typography>
                             </div>
                             

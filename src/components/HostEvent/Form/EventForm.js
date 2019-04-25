@@ -254,7 +254,7 @@ class EventForm extends Component {
                         <div className='addressinput'>
                             <FormControl>
                                 <TextField
-                                    id='standard-title'
+                                    id='standard-title3'
                                     label='City'
                                     disabled={this.state.location === 'online'}
                                     value={this.state.city}
