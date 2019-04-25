@@ -10,9 +10,9 @@ function MessageList(props){
         
         return(
 
-            <Paper key={message.message_id} style={{margin: 5, transform: 'rotate(180deg)'}} onClick={() => {props.redirect(`/account/${message.user_id}`)}} >
-                <Typography style={{color: '#00BF0C'}}>
-                UserName {message.username}
+            <Paper key={message.message_id} style={{margin: 5, transform: 'rotate(180deg)', display: 'flex',}} onClick={() => {props.redirect(`/account/${message.user_id}`)}} >
+                <Typography style={{color: '#00BF0C', marginRight: 8, marginLeft: 10 }}>
+                {message.username}:
                 </Typography>
                 <Typography style={{color: '#00BF0C'}}>
                   {message.message}
