@@ -18,6 +18,7 @@ import zxcvbn from 'zxcvbn';
 import * as EmailValidator from 'email-validator'
 import io from 'socket.io-client';
 import Snackbar from "@material-ui/core/Snackbar";
+import { withRouter } from 'react-router-dom'
 
 const styles = theme => ({
   main: {
@@ -119,6 +120,7 @@ class Auth extends Component {
     this.props.modalTwoClose()
   }
   async login() {
+    console.log('login hit')
     let user = {
       email: this.state.email,
       password: this.state.password,
@@ -180,9 +182,12 @@ class Auth extends Component {
     }
 
   }
-  async logout() {
+   logout = async () => {
+     console.log('logout hit', 'impossible')
+     this.snackClose()
     await axios.post('/auth/logout')
     this.props.clearUser()
+    this.props.history.push('/')
   }
   handleChange(prop, val) {
     this.setState({
@@ -419,4 +424,4 @@ const mapDispatchToProps = {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Auth))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(Auth)))

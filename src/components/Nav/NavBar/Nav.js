@@ -39,7 +39,7 @@ class Nav extends Component {
   }
   componentDidMount(){
     Axios.get('/auth/checkuser').then(res => {
-      this.props.updateUser(res.data)
+      this.props.updateUser(res.data[0])
     }).catch(err => {
       this.props.clearUser()
     })

@@ -51,8 +51,15 @@ module.exports = {
         }
     },
     getUser: async (req, res) => {
+        const db = req.app.get('db')
         const { user } = req.session
+        if(!user){
+            return res.sendStatus(409)
+        }
+        let id = user.user_id
         if (user) {
+            let user = await db.Auth.get_account({id})
+            console.log('database', user)
             res.status(200).send(user)
         } else {
             res.sendStatus(409)

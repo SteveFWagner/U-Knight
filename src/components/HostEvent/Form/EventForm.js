@@ -140,7 +140,7 @@ class EventForm extends Component {
                         onChange={e => this.handleAllFormChanges('title', e.target.value)}
                         margin='normal'
                         inputProps={{
-                            maxLength:10
+                            maxLength:40
                         }}
                     />
 

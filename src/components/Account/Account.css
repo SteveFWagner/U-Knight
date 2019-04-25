@@ -22,7 +22,10 @@
 }
 #eventheader{
     font-size: 80px;
-    /* color: #4051B5; */
     font-family: 'East Sea Dokdo', cursive;
     margin: unset
+}
+#profilepaper{
+    width: 450px;
+    
 }
