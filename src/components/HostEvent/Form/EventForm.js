@@ -129,17 +129,19 @@ class EventForm extends Component {
             <div className='the-everything-container'>
             
                 <form className='form'>
-                    <div className='header'>
-                        <Typography variant='h3'>Create An Epic Event !!</Typography>
+                    <div>
+                        <Typography variant='h3' id='header'>Create An Epic Event !!</Typography>
                     </div>
 
                     <TextField
-                        className='title'
-                        id='standard-title'
+                        id='title'
                         label='Your epic event title'
                         value={this.state.title}
                         onChange={e => this.handleAllFormChanges('title', e.target.value)}
                         margin='normal'
+                        inputProps={{
+                            maxLength:10
+                        }}
                     />
 
 
@@ -149,7 +151,7 @@ class EventForm extends Component {
 
 
                     <fieldset>
-                        <FormLabel component='legend'>Will your event be</FormLabel>
+                        <FormLabel component='legend'>What Type of Event</FormLabel>
                     <div className='section2'>
                         <div>
                         <RadioGroup
@@ -176,16 +178,15 @@ class EventForm extends Component {
                             />
                         </RadioGroup>
                         </div>
-                        <div className='categoryselect'>
-                            <InputLabel>Category</InputLabel>
-                            <Select
-
-                                value={this.state.category}
-                                onChange={(e) => this.handleAllFormChanges('category', e.target.value)}
-                            >
-                                {mappedCategories}
-                            </Select>
-                        </div>
+                            <div className='categoryselect'>
+                                <InputLabel>Category</InputLabel>
+                                <Select
+                                    value={this.state.category}
+                                    onChange={(e) => this.handleAllFormChanges('category', e.target.value)}
+                                >
+                                    {mappedCategories}
+                                </Select>
+                            </div>
                         </div>
                     </fieldset>
 
@@ -280,6 +281,9 @@ class EventForm extends Component {
                                 onChange={e => this.handleAllFormChanges('description', e.target.value)}
                                 margin="normal"
                                 rows={3}
+                                inputProps={{
+                                    maxLength:200
+                                }}
                             />
 
                         </fieldset>

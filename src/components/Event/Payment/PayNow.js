@@ -18,18 +18,18 @@ class PayNow extends Component {
     }
 
     handleToken = (token) => {
-        console.log('hit')
         token.card = void 0
         const {eventId, userId} = this.props
         Axios.post('/api/payment', {token, amount:this.state.payAmount, eventId, userId})
         .then(res => {
+            this.props.closeModal('snackBarMessage',"Thanks for pitching in!")
+            this.props.closeModal('snackBar',true)
             this.props.closeModal('paymentModal',false)
         })
         .catch(err => console.log(err))
     }
 
     render() {
-        console.log(this.state.payAmount)
         return (
             <div id='paynow-wrapper'>
                 <Typography variant='h4'>

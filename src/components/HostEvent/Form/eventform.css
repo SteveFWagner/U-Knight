@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=East+Sea+Dokdo');
+
 .the-everything-container {
   display: flex;
   justify-content: space-around;
@@ -21,10 +23,12 @@ fieldset {
 .section2 {
   display: flex;
   justify-content: space-around;
-  
 }
 .section4 {
   display: flex;
+}
+.section3 {
+  margin-top:15px;
 }
 .addressinput{
   margin: 10px;
@@ -39,6 +43,10 @@ width: 100%;
 .categoryselect{
   width: 10%;
 }
+#selector-cat{
+  width: 100px;
+}
+
 .section5{
   width: 100%;
   display: flex;
@@ -47,6 +55,15 @@ width: 100%;
 .dropzone{
   display: flex;
   align-items: center;
+}
+
+#header{
+  font-family: 'East Sea Dokdo', cursive;
+  font-size:80px;
+}
+
+#title{
+  width:35vw;
 }
 
 /*
