@@ -26,7 +26,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        maxAge: 1800000
+        maxAge: 100000
     }
 }))
 
@@ -56,6 +56,16 @@ io.on('connection', function(socket){
         await db.Sockets.create_message({user_id, message, event_id , username})
         let messages = await db.Sockets.get_message_history({event_id})
         io.to(data.event_id).emit('sendMsg', messages)
+    })
+    socket.on('username', async (username) => {
+        const db = app.get('db')
+        let takenUsername = await db.Auth.check_username({ username })
+        takenUsername = takenUsername[0]
+        if (takenUsername) {
+            return socket.emit('username', true)
+        } else {
+            return socket.emit('username', false)
+        }
     })
 })
 

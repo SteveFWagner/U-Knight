@@ -29,7 +29,6 @@ class Home extends Component {
             }
             
         })
-        // console.log({filteredData})
         let sortedData = await filteredData.sort((a,b)=>{
             let timeA = moment(a.start_date)
             let timeB = moment(b.start_date)
@@ -41,7 +40,6 @@ class Home extends Component {
                 return 0
             }
         })
-        // console.log({sortedData})
         this.setState({
             events: sortedData
         })

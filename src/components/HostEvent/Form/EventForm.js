@@ -70,7 +70,6 @@ class EventForm extends Component {
     }
 
     handleOnlineRadio = () => {
-        console.log('hit')
         this.setState({
             address: '',
             zipcode: '',
@@ -126,7 +125,6 @@ class EventForm extends Component {
         const mappedCategories = categories.map((cat, i) => {
             return <MenuItem value={cat} key={i}>{cat}</MenuItem>
         })
-        console.log(222222, this.state)
         return (
             <div className='the-everything-container'>
             

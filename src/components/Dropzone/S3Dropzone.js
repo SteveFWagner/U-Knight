@@ -17,7 +17,6 @@ class S3Dropzone extends Component {
   // url: 'http://via.placeholder.com/450x450',
 
   getSignedRequest = ([ file ]) => {
-    console.log('push change')
     this.setState({ isUploading: true });
     // We are creating a file name that consists of a random string, and the name of the file that was just uploaded with the spaces removed and hyphens inserted instead. This is done using the .replace function with a specific regular expression. This will ensure that each file uploaded has a unique name which will prevent files from overwriting other files due to duplicate names.
     const fileName = `${randomString()}-${file.name.replace(/\s/g, '-')}`;
@@ -30,7 +29,6 @@ class S3Dropzone extends Component {
       },
     })
       .then(response => {
-        console.log(response.data)
         const { signedRequest, url } = response.data;
         this.uploadFile(file, signedRequest, url);
       })
@@ -68,8 +66,6 @@ class S3Dropzone extends Component {
   };
 
   render() {
-    console.log('this is the url',this.state.url)
-    console.log(11111,this.props)
     const { url, isUploading } = this.state;
     return (
       <div className="dropzonediv">

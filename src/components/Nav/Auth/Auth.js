@@ -13,6 +13,11 @@ import Modal from '@material-ui/core/Modal';
 import axios from 'axios';
 import { updateUser, clearUser, modalOneOpen, modalOneClose, modalTwoOpen, modalTwoClose } from "../../../ducks/reducer";
 import { connect } from 'react-redux';
+//validation
+import zxcvbn from 'zxcvbn';
+import * as EmailValidator from 'email-validator'
+import io from 'socket.io-client';
+import Snackbar from "@material-ui/core/Snackbar";
 
 const styles = theme => ({
   main: {
@@ -51,10 +56,55 @@ class Auth extends Component {
     super(props)
     this.state = {
       email: '',
+      emailError: false,
+      emailValidation: false,
+      emailErrorMessage: '',
+      emailErrorMessageColor: '',
+
       username: '',
-      password: ''
+      usernameError: false,
+      usernameErrorMessageColor: '',
+      usernameErrorMessage: '',
+
+      password: '',
+      passwordError: false,
+      goodEnough: '',
+      crackTime: 'less than a second',
+      score: '',
+      pas: '',
+
+      snack: false,
+
+
+
     }
+
+    this.usernameTimeout = null
   }
+
+  componentDidMount() {
+    this.setSocketListeners()
+  }
+
+  setSocketListeners = () => {
+    this.socket = io()
+    this.socket.on('username', (takenUsername) => {
+      if (takenUsername === false) {
+        this.setState({
+          usernameError: false,
+          usernameErrorMessage: 'This user name is yours friend',
+          usernameErrorMessageColor: '#33FF33'
+        })
+      } else {
+        this.setState({
+          usernameError: true,
+          usernameErrorMessage: 'This username has been taken',
+          usernameErrorMessageColor: '#F34436'
+        })
+      }
+    })
+  }
+
   handleModalOneOpen = () => {
     this.props.modalOneOpen()
   }
@@ -75,7 +125,6 @@ class Auth extends Component {
     }
     try {
       let res = await axios.post('/auth/login', user)
-      console.log(888888, res.data)
       this.props.updateUser(res.data)
       this.handleModalOneClose()
       alert('logged in')
@@ -90,9 +139,17 @@ class Auth extends Component {
       password: this.state.password,
       image: 'https://vectr.com/stevewagner/c3BocqDepf.png?width=320&height=320&select=c3BocqDepfpage0'
     }
+    if (this.state.emailValidation === false) {
+      return this.snackOpen()
+    }
+    if (this.state.score < 3) {
+      return this.snackOpen()
+    }
+    if( this.state.usernameError === true || this.state.username === ''){
+      return this.snackOpen()
+    }
     try {
       let res = await axios.post('/auth/register', user)
-      console.log(res.data)
       this.props.updateUser(res.data)
       this.handleModalTwoClose()
       alert('user created')
@@ -110,11 +167,80 @@ class Auth extends Component {
       [prop]: val
     })
   }
+  handlePasswordChange(val) {
+    const password = val
+    const evaluation = zxcvbn(password)
+    if (this.state.score >= 3) {
+      this.setState({
+        pas: '#33FF33',
+        goodEnough: 'which is good enough',
+        passwordError: false
+      })
+    } else {
+      this.setState({
+        pas: '#F34436',
+        goodEnough: 'which is no good:(',
+        passwordError: true
+      })
+    }
+    this.setState({
+      password: val,
+      crackTime: evaluation.crack_times_display.online_no_throttling_10_per_second,
+      score: evaluation.score
+    })
+  }
+  handleEmailValidation(val) {
+    const email = val
+    const emailValidation = EmailValidator.validate(email)
+    this.setState({
+      email: email,
+      emailValidation: emailValidation,
+    })
+    if (emailValidation === true) {
+      this.setState({
+        emailError: false,
+        emailErrorMessageColor: '#33FF33',
+        emailErrorMessage: 'Valid email address'
+
+      })
+    } else {
+      this.setState({
+        emailError: true,
+        emailErrorMessageColor: '#F34436',
+        emailErrorMessage: 'must be a valid email address'
+      })
+    }
+  }
+
+  handleUsernameCheck(val) {
+    const username = val
+    this.setState({
+      username: username
+    })
+    clearTimeout(this.usernameTimeout)
+    this.usernameTimeout = setTimeout(() => {
+      this.socket.emit('username', username)
+    }, 500);
+
+  }
+  snackOpen = () => {
+    this.setState({
+      snack: true
+    })
+  }
+  snackClose = () => {
+    this.setState({
+      snack: false
+    })
+  }
 
 
   render() {
     const { classes } = this.props
-
+    let passwordErrorMessage = null
+    if(this.state.password !== ''){
+      passwordErrorMessage = <Typography style={{ color: this.state.pas }}>It would take {this.state.crackTime} to crack this password {this.state.goodEnough}</Typography>
+    }
     if (this.props.user_id !== 0) {
       return (
         <div>
@@ -148,8 +274,8 @@ class Auth extends Component {
               <Paper className={classes.paper}>
                 <Avatar className={classes.avatar}>
                   <LockOutlinedIcon
-                  color="secondary"
-                  style={{color: 'white'}}
+                    color="secondary"
+                    style={{ color: 'white' }}
                   />
                 </Avatar>
                 <Typography component="h1" variant="h5">
@@ -195,8 +321,8 @@ class Auth extends Component {
               <CssBaseline />
               <Paper className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                <LockOutlinedIcon
-                  style={{color: 'white'}}
+                  <LockOutlinedIcon
+                    style={{ color: 'white' }}
                   />
                 </Avatar>
                 <Typography component="h1" variant="h5">
@@ -205,15 +331,18 @@ class Auth extends Component {
                 <form className={classes.form}>
                   <FormControl margin="normal" required fullWidth>
                     <InputLabel htmlFor="email">Email Address</InputLabel>
-                    <Input onChange={e => this.handleChange('email', e.target.value)} autoFocus />
+                    <Input required={true} error={this.state.emailError} onChange={e => this.handleEmailValidation(e.target.value)} autoFocus />
+                    <Typography style={{ color: this.state.emailErrorMessageColor }}>{this.state.emailErrorMessage}</Typography>
                   </FormControl>
                   <FormControl margin="normal" required fullWidth>
                     <InputLabel htmlFor="email">User name </InputLabel>
-                    <Input onChange={e => this.handleChange('username', e.target.value)} />
+                    <Input required={true} error={this.state.usernameError} onChange={e => this.handleUsernameCheck(e.target.value)} />
+                    <Typography style={{ color: this.state.usernameErrorMessageColor }}>{this.state.usernameErrorMessage}</Typography>
                   </FormControl>
                   <FormControl margin="normal" required fullWidth>
                     <InputLabel htmlFor="password">Password</InputLabel>
-                    <Input type="password" onChange={e => this.handleChange('password', e.target.value)} />
+                    <Input required={true} type="password" error={this.state.passwordError} onChange={e => this.handlePasswordChange(e.target.value)} />
+                    {passwordErrorMessage}
                   </FormControl>
                   <Button
                     fullWidth
@@ -229,7 +358,16 @@ class Auth extends Component {
               </Paper>
             </main>
           </Modal>
-
+          <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          autoHideDuration={3000}
+          open={this.state.snack || false}
+          onClose={this.snackClose}
+          ContentProps={{
+            "aria-describedby": "message-id"
+          }}
+          message={<span > Your account could not be created </span>}
+        />
         </div>
       )
     }
