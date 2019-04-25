@@ -38,6 +38,9 @@ class Events extends Component{
        
         
     }
+    componentWillUnmount(){
+        this.socket.disconnect()
+    }
     //Sockets
     setSocketListeners = () => {
         const {id} = this.props.match.params
@@ -148,8 +151,9 @@ class Events extends Component{
     }
 
     render(){
+        console.log(this.state.host)
         const {description, title, address, zipcode, start_date, end_date, image} = this.state.data
-        const {username, image:userImage} = this.state.host
+        const {username, image:userImage, user_id:hostId} = this.state.host
         let zipCheck = zipcode
         let addressCheck = address
         if(Number(zipCheck) === 1000){
@@ -162,7 +166,7 @@ class Events extends Component{
             <div id='event-wrapper'>
                 <div id='event-1-wrapper'>
                     <div id='event-host-attending-wrapper'>
-                        <img id='event-host' src={userImage} alt="host"/>
+                        <img id='event-host' src={userImage} alt="host" onClick={()=>this.handleRedirect(`/account/${hostId}`)}/>
                         <div>
                             <Typography variant='h5'>
                                 Event Host:

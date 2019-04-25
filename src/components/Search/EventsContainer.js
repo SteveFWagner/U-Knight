@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 import EventList from '../reusable/EventList'
 
 const EventsContainer = (props) => {
@@ -7,9 +8,10 @@ const EventsContainer = (props) => {
         return <EventList data={data} key={data.event_id}/>
     })
     return (
-        <>
-            {mappedEvents}
-        </>
+        <div>
+                {mappedEvents}
+        </div>
+        
     );
 };
 

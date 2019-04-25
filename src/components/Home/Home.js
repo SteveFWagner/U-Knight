@@ -29,7 +29,6 @@ class Home extends Component {
             }
             
         })
-        // console.log({filteredData})
         let sortedData = await filteredData.sort((a,b)=>{
             let timeA = moment(a.start_date)
             let timeB = moment(b.start_date)
@@ -41,7 +40,6 @@ class Home extends Component {
                 return 0
             }
         })
-        // console.log({sortedData})
         this.setState({
             events: sortedData
         })
@@ -58,7 +56,7 @@ class Home extends Component {
                 </div>
                 <div id='content-container'>
                     <iframe 
-                        src="https://www.youtube.com/embed/fd7ml1Mgyy0?rel=0;&autoplay=1&mute=1" frameBorder="0" 
+                        src="https://www.youtube.com/embed/ZXnfx2Tgefs?rel=0;&autoplay=1&mute=1" frameBorder="0" 
                         allowFullScreen
                         title='potw'
                         >
