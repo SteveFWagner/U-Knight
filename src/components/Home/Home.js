@@ -51,7 +51,6 @@ class Home extends Component {
         let myVideos = [ '_mRPNuyE1gQ', 'KwkN8i3nJ3E', 'M8NqAQc78xU', 'zaVYX_pzf0w', 'i_h847BJ6g4', 'ZXnfx2Tgefs', '7lZ-b72oVgk', 'vXGWBJcpfJc', '4sbsOkggISs', 'VQt4bF91eYg' ]
 
         let selectedVideo = myVideos[ Math.floor(Math.random() * myVideos.length) ]
-        console.log(selectedVideo)
         this.setState({
             video: selectedVideo
         });

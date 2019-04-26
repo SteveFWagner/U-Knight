@@ -53,7 +53,6 @@ module.exports = {
             }
         s3.getSignedUrl('putObject', s3Params, (err, data) => {
                 if (err) {
-                    console.log(err)
                     return res.end()
                 }
                 const returnData = {
@@ -111,7 +110,6 @@ module.exports = {
                     console.log(err)
                     return res.status(500).send(err)
                 }else{
-                    console.log(charge)
                     db.Events.update_event_paid(eventId, userId, amount)
                     .then(resp => {
                         return res.status(200).send(charge)

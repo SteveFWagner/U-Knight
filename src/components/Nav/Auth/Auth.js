@@ -120,7 +120,6 @@ class Auth extends Component {
     this.props.modalTwoClose()
   }
   async login() {
-    console.log('login hit')
     let user = {
       email: this.state.email,
       password: this.state.password,
@@ -183,7 +182,6 @@ class Auth extends Component {
 
   }
    logout = async () => {
-     console.log('logout hit', 'impossible')
      this.snackClose()
     await axios.post('/auth/logout')
     this.props.clearUser()

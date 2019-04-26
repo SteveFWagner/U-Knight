@@ -59,7 +59,6 @@ module.exports = {
         let id = user.user_id
         if (user) {
             let user = await db.Auth.get_account({id})
-            console.log('database', user)
             res.status(200).send(user)
         } else {
             res.sendStatus(409)

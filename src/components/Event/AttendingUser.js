@@ -3,7 +3,6 @@ import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 
 const AttendingUser = (props) => {
-    // console.log(props.data)
     return (
         <div id='attending-user' onClick={()=>props.redirect(`/account/${props.data.user_id}`)}>
             <Paper id='attending-user-paper' elevation={1}>

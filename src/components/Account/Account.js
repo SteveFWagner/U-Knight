@@ -108,7 +108,6 @@ class Account extends Component {
         }
         try {
             let edits = await axios.put(`/api/user/${this.props.match.params.id}`, profile)
-            console.log(222, edits.data[0], edits.data)
             this.props.updateUser(edits.data[0])
 
             this.accountData()
@@ -138,7 +137,6 @@ class Account extends Component {
         })
     }
     render() {
-        console.log(5555, this.props.user_id, Number(this.props.match.params.id))
         const { classes } = this.props;
         let varButton =
             <IconButton onClick={() => this.editOpen()} style={{ postition: 'relative', left: '45%' }}>
