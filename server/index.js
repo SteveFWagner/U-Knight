@@ -1,3 +1,4 @@
+const path = require('path');
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -17,6 +18,8 @@ const pgPool = new pg.Pool({
     connectionString: CONNECTION_STRING
 })
 
+app.use( express.static( `${__dirname}/../build` ) )
+
 app.use(bodyParser.json())
 app.use(session({
     store: new pgSession({
@@ -29,6 +32,8 @@ app.use(session({
         maxAge: 172800000
     }
 }))
+
+
 
 
 massive(CONNECTION_STRING).then(db => {
@@ -99,3 +104,8 @@ const ctrlUser = require('./controllers/authController')
 
 //stripe
     app.post('/api/payment', eCt.handlePayment)
+
+
+    app.get('*', (req, res)=>{
+        res.sendFile(path.join(__dirname, '../build/index.html'));
+    });
